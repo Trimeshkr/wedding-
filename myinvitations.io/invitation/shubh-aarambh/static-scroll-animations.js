@@ -18,9 +18,13 @@
         const progress=clamp((start-rect.top)/(start-end));
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open'),rh=pxVar(wrap,'--im-scroll-roller-h');
         const paperH=paper.getBoundingClientRect().height;
-        const rollerBottom=closed+(open-closed)*progress;
-        // Keep reveal edge directly synchronized to roller travel; no delayed easing.
-        const clipBottom=(paperH-closed+rh)*(1-progress)+(open+rh)*progress;
+        // Original geometry: closed roller bottom = wrap height - closed offset.
+        const wrapH=wrap.getBoundingClientRect().height;
+        const rollerBottom=(wrapH-closed)+(open-(wrapH-closed))*progress;
+        // Reveal boundary is the top edge of the roller, measured in paper coordinates.
+        const paperBottomInWrap=paper.offsetTop+paperH;
+        const rollerTopInWrap=wrapH-rollerBottom-rh;
+        const clipBottom=clamp(paperBottomInWrap-rollerTopInWrap,0,paperH);
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
         paper.style.setProperty('clip-path',`inset(0 0 ${Math.max(0,clipBottom)}px 0)`,'important');
         roller.style.setProperty('bottom',`${rollerBottom}px`,'important');
