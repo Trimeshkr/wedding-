@@ -9871,6 +9871,12 @@ window.addEventListener('DOMContentLoaded',function(){
 .im-cover-video.intro-needs-tap .im-cover-video__poster-overlay{opacity:1!important}
 @media(max-width:480px){.static-intro-controls{gap:8px}.static-intro-controls button{padding:11px 15px;font-size:12px}}
 </style>
+<style id="restore-cover-interaction-style">
+.im-cover-video{cursor:pointer}
+.im-cover-video__video{width:100%;height:100%;object-fit:cover}
+.static-intro-controls{position:absolute;z-index:100001;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center}
+.static-intro-controls button{border:1px solid rgba(255,255,255,.75);border-radius:999px;padding:12px 18px;background:rgba(22,15,12,.68);color:#fff;font:600 13px system-ui;cursor:pointer}
+</style>
 </head>
 
 <body class="wp-singular invitation_mgmt-template-default single single-invitation_mgmt postid-96034 wp-custom-logo wp-embed-responsive wp-theme-my-invitations theme-my-invitations invitation-website woocommerce-no-js woocommerce-active ipw-dynamic-mode">
@@ -9976,7 +9982,7 @@ window.addEventListener('DOMContentLoaded',function(){
 
 
         <div style="position:fixed;z-index:99999;background-color:#000000" class="im-cover-video ticss-6cc150c2 wp-block-invitation-management-cover-cover-with-video" data-duration="10">
-            <video class="im-cover-video__video" src="../../wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="../../wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline muted autoplay preload="auto"></video>
+            <video class="im-cover-video__video" src="../../wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="../../wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline preload="auto"></video>
             <img decoding="async" class="im-cover-video__poster-overlay" src="../../wp-content/uploads/2026/10/cover-poster-2.jpg" alt="">
 
         </div>
