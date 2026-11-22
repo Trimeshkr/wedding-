@@ -17,17 +17,18 @@
         progress=clamp(value);
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open'),rh=pxVar(wrap,'--im-scroll-roller-h');
         const paperH=paper.getBoundingClientRect().height,wrapH=wrap.getBoundingClientRect().height;
+        // Move the roller from its closed position to the bottom while revealing
+        // the paper top-to-bottom. Use a direct pixel clip so it is not dependent
+        // on conflicting theme calc()/transition rules.
         const rollerBottom=(wrapH-closed)+(open-(wrapH-closed))*progress;
-        const paperBottomInWrap=paper.offsetTop+paperH;
-        const rollerTopInWrap=wrapH-rollerBottom-rh;
-        const clipBottom=clamp(paperBottomInWrap-rollerTopInWrap,0,paperH);
+        const clipBottom=paperH*(1-progress);
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
-        paper.style.setProperty('clip-path',`inset(0 0 ${Math.max(0,clipBottom)}px 0)`,'important');
+        paper.style.setProperty('clip-path',`inset(0 0 ${clipBottom}px 0)`,'important');
         paper.style.setProperty('transition','none','important');
         roller.style.setProperty('bottom',`${rollerBottom}px`,'important');
         roller.style.setProperty('transition','none','important');
         roller.style.setProperty('visibility','visible','important');
-        if(inner){inner.style.setProperty('opacity','1','important');inner.style.setProperty('transition','none','important')}
+        if(inner){inner.style.setProperty('opacity',String(progress),'important');inner.style.setProperty('transition','none','important')}
         wrap.classList.toggle('is-open',progress>.005);
         if(progress>=1)wrap.classList.add('is-settled');
       };
