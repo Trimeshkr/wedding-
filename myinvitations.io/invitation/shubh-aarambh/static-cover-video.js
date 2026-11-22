@@ -1,18 +1,21 @@
-/* Static opening video: muted autoplay with tap-to-enable-sound fallback and reliable exit. */
+/* Opening intro V2: muted autoplay, user sound/play fallback, and explicit skip. */
 (() => {
-  const init = () => {
+  function start() {
     const cover = document.querySelector('.im-cover-video');
-    const video = cover?.querySelector('.im-cover-video__video');
-    if (!cover || !video) return;
+    const video = cover?.querySelector('video.im-cover-video__video');
+    if (!cover || !video || cover.dataset.staticIntroReady) return;
+    cover.dataset.staticIntroReady = '1';
 
-    let finished = false;
-    let fallbackTimer;
-    const durationSeconds = Number(cover.dataset.duration || 10);
+    let closed = false;
+    let playbackStarted = false;
+    let failTimer = 0;
+    let endTimer = 0;
 
     const finish = () => {
-      if (finished) return;
-      finished = true;
-      clearTimeout(fallbackTimer);
+      if (closed) return;
+      closed = true;
+      clearTimeout(failTimer);
+      clearTimeout(endTimer);
       video.pause();
       cover.classList.add('is-closing');
       document.dispatchEvent(new CustomEvent('iw:cover-ending-soon'));
@@ -24,75 +27,86 @@
       }, 1200);
     };
 
-    const control = document.createElement('button');
-    control.className = 'static-cover-video-control';
-    control.type = 'button';
-    control.textContent = 'Tap to play with sound';
-    control.hidden = true;
-    cover.appendChild(control);
+    const controls = document.createElement('div');
+    controls.className = 'static-intro-controls';
+
+    const sound = document.createElement('button');
+    sound.type = 'button';
+    sound.className = 'static-intro-sound';
+    sound.textContent = 'Enable sound';
+
+    const skip = document.createElement('button');
+    skip.type = 'button';
+    skip.className = 'static-intro-skip';
+    skip.textContent = 'Skip intro';
+
+    controls.append(sound, skip);
+    cover.appendChild(controls);
 
     video.muted = true;
     video.autoplay = true;
     video.playsInline = true;
+    video.preload = 'auto';
 
-    const setFallback = () => {
-      control.hidden = false;
-      control.textContent = 'Tap to play';
+    const fallback = () => {
+      sound.textContent = 'Play intro';
+      cover.classList.add('intro-needs-tap');
     };
 
     video.addEventListener('playing', () => {
+      playbackStarted = true;
       cover.classList.add('is-video-ready', 'is-playing');
-      control.hidden = false;
-      control.textContent = 'Tap for sound';
-    }, { once: true });
-
-    video.addEventListener('error', () => {
-      setFallback();
-      fallbackTimer = setTimeout(finish, 5000);
+      sound.textContent = video.muted ? 'Enable sound' : 'Mute';
+      clearTimeout(failTimer);
+      const duration = Number.isFinite(video.duration) && video.duration > 0
+        ? video.duration
+        : Number(cover.dataset.duration || 10);
+      endTimer = setTimeout(finish, (duration + 2) * 1000);
     });
 
-    video.addEventListener('ended', finish, { once: true });
+    video.addEventListener('ended', finish);
+    video.addEventListener('error', fallback);
 
-    control.addEventListener('click', async (event) => {
+    sound.addEventListener('click', async (event) => {
       event.stopPropagation();
-      if (video.paused) {
+      if (!playbackStarted || video.paused) {
         try {
           video.muted = false;
           await video.play();
-          control.textContent = 'Sound on';
+          cover.classList.remove('intro-needs-tap');
+          sound.textContent = 'Mute';
         } catch {
-          video.muted = true;
-          setFallback();
+          try {
+            video.muted = true;
+            await video.play();
+            cover.classList.remove('intro-needs-tap');
+            sound.textContent = 'Enable sound';
+          } catch {
+            fallback();
+          }
         }
       } else {
         video.muted = !video.muted;
-        control.textContent = video.muted ? 'Tap for sound' : 'Sound on';
+        sound.textContent = video.muted ? 'Enable sound' : 'Mute';
       }
     });
 
+    skip.addEventListener('click', (event) => {
+      event.stopPropagation();
+      finish();
+    });
+
     document.dispatchEvent(new CustomEvent('iw:lock-scroll'));
-    const playPromise = video.play();
-    if (playPromise?.catch) {
-      playPromise.catch(() => {
-        setFallback();
-      });
-    }
-
-    // If the media has a known duration, use it as a safety exit.
-    video.addEventListener('loadedmetadata', () => {
-      if (Number.isFinite(video.duration) && video.duration > 0) {
-        clearTimeout(fallbackTimer);
-        fallbackTimer = setTimeout(finish, (video.duration + 3) * 1000);
-      }
-    }, { once: true });
-
-    // Last-resort exit if autoplay/media loading fails.
-    fallbackTimer ||= setTimeout(finish, Math.max(durationSeconds + 8, 15) * 1000);
-  };
+    const attempt = video.play();
+    if (attempt?.catch) attempt.catch(fallback);
+    failTimer = setTimeout(() => {
+      if (!playbackStarted) fallback();
+    }, 6500);
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
+    document.addEventListener('DOMContentLoaded', start, { once: true });
   } else {
-    init();
+    start();
   }
 })();
