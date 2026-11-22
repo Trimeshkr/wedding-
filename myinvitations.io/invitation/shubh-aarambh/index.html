@@ -12121,6 +12121,11 @@ window.addEventListener('DOMContentLoaded',function(){
             object-position: center 38%;
             transform: none !important;
         }
+        /* Groom portrait: zoom in independently; leave bride crop unchanged */
+        body .im-couple-profile__grid > .im-couple-profile__card-reveal:first-child .im-couple-profile__photo {
+            object-position: center 48%;
+            transform: scale(1.28) !important;
+        }
         @media (max-width: 640px) {
             body .im-couple-profile__photo-frame {
                 inset: 1%;
