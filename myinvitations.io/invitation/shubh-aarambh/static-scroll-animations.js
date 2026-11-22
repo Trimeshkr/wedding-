@@ -30,8 +30,11 @@
         roller.style.setProperty('bottom',`${bottomOffset}px`,'important');
         roller.style.setProperty('transition','none','important');
         roller.style.setProperty('visibility','visible','important');
-        const actualRollerTop=roller.getBoundingClientRect().top;
-        const revealEdge=clamp(actualRollerTop-paperRect.top,0,paperH);
+        const actualRollerBottom=roller.getBoundingClientRect().bottom;
+        // Reveal the parchment up to the roller's lower visible edge. Using the
+        // top edge leaves the exposed paper tucked behind the roller and creates
+        // the apparent gap/misalignment shown in the screenshot.
+        const revealEdge=clamp(actualRollerBottom-paperRect.top,0,paperH);
         const clipBottom=paperH-revealEdge;
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
         paper.style.setProperty('clip-path',`inset(0 0 ${clipBottom}px 0)`,'important');
