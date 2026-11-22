@@ -19,12 +19,13 @@
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open'),rh=pxVar(wrap,'--im-scroll-roller-h');
         const paperH=paper.getBoundingClientRect().height;
         const rollerBottom=closed+(open-closed)*progress;
-        const clipBottom=(paperH-closed+rh)+((open+rh)-(paperH-closed+rh))*progress;
+        // Keep reveal edge directly synchronized to roller travel; no delayed easing.
+        const clipBottom=(paperH-closed+rh)*(1-progress)+(open+rh)*progress;
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
         paper.style.setProperty('clip-path',`inset(0 0 ${Math.max(0,clipBottom)}px 0)`,'important');
         roller.style.setProperty('bottom',`${rollerBottom}px`,'important');
         roller.style.setProperty('visibility','visible','important');
-        if(inner){inner.style.setProperty('opacity',progress,'important');inner.style.setProperty('transition','none','important')}
+        if(inner){inner.style.setProperty('opacity','1','important');inner.style.setProperty('transition','none','important')}
         wrap.classList.toggle('is-open',progress>.005);wrap.classList.remove('is-settled');
       };
       let busy=false;const schedule=()=>{if(busy)return;busy=true;requestAnimationFrame(()=>{update();busy=false})};
