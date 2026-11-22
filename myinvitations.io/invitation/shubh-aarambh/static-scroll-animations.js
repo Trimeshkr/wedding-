@@ -174,6 +174,34 @@
       handle.setAttribute('aria-valuenow','0');
       handle.setAttribute('role','slider');
     });
+    // Reliable standalone countdown for the exported Save-the-Date card.
+    document.querySelectorAll('.im-door-countdown__grid[data-countdown]').forEach(grid=>{
+      if(grid.dataset.staticCountdownReady)return;
+      grid.dataset.staticCountdownReady='true';
+      const targetText=grid.getAttribute('data-countdown');
+      const target=new Date(targetText);
+      const days=grid.querySelector('[data-countdown-days]');
+      const hours=grid.querySelector('[data-countdown-hours]');
+      const mins=grid.querySelector('[data-countdown-mins]');
+      const secs=grid.querySelector('[data-countdown-secs]');
+      if(Number.isNaN(target.getTime())){console.warn('Invalid wedding countdown date:',targetText);return;}
+      const pad=n=>String(n).padStart(2,'0');
+      const update=()=>{
+        let ms=Math.max(0,target.getTime()-Date.now());
+        const total=Math.floor(ms/1000);
+        const d=Math.floor(total/86400);
+        const h=Math.floor((total%86400)/3600);
+        const m=Math.floor((total%3600)/60);
+        const s=total%60;
+        if(days)days.textContent=pad(d);
+        if(hours)hours.textContent=pad(h);
+        if(mins)mins.textContent=pad(m);
+        if(secs)secs.textContent=pad(s);
+        grid.dataset.countdownComplete=ms<=0?'true':'false';
+      };
+      update();
+      grid._staticCountdownTimer=setInterval(update,1000);
+    });
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
     if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('static-animate-in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});els.forEach(el=>io.observe(el))}else els.forEach(el=>el.classList.add('static-animate-in'));
