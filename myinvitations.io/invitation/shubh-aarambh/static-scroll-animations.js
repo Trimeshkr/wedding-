@@ -206,12 +206,12 @@
    Page turns remain available by interacting with the book itself. */
     const hideFlipbookControls=document.createElement('style');
     hideFlipbookControls.textContent=`
+      /* Actual round navigation buttons are outside the stage in this template. */
+      .im-flipcal .im-flipcal__nav,
+      .im-flipcal .im-flipcal__nav--prev,
+      .im-flipcal .im-flipcal__nav--next,
       .im-flipcal__stage>.im-flipcal__controls,
-      .im-flipcal__stage>.im-flipcal__navigation,
-      .im-flipcal__stage>.im-flipcal__nav,
-      .im-flipcal__stage button.im-flipcal__corner,
-      .im-flipcal__corner--prev,
-      .im-flipcal__corner--next {display:none!important}
+      .im-flipcal__stage>.im-flipcal__navigation {display:none!important}
     `;
     document.head.appendChild(hideFlipbookControls);
     // Fallback flip-calendar interaction for static exports where the original
