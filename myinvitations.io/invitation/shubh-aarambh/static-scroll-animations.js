@@ -12,19 +12,12 @@
     if(wrap&&section){
       const paper=wrap.querySelector('.im-wording__paper'),roller=wrap.querySelector('.im-wording__roller'),inner=wrap.querySelector('.im-wording__inner');
       wrap.classList.add('is-armed');wrap.classList.remove('is-open','is-settled');
-      let maxProgress=0;
-      const update=()=>{
-        const rect=section.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
-        const start=vh*.82,end=-rect.height*.35;
-        // One-way unroll: progress may advance with downward scrolling, never regress.
-        maxProgress=Math.max(maxProgress,clamp((start-rect.top)/(start-end)));
-        const progress=maxProgress;
+      let progress=0,triggered=false;
+      const render=(value)=>{
+        progress=clamp(value);
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open'),rh=pxVar(wrap,'--im-scroll-roller-h');
-        const paperH=paper.getBoundingClientRect().height;
-        // Original geometry: closed roller bottom = wrap height - closed offset.
-        const wrapH=wrap.getBoundingClientRect().height;
+        const paperH=paper.getBoundingClientRect().height,wrapH=wrap.getBoundingClientRect().height;
         const rollerBottom=(wrapH-closed)+(open-(wrapH-closed))*progress;
-        // Reveal boundary is the top edge of the roller, measured in paper coordinates.
         const paperBottomInWrap=paper.offsetTop+paperH;
         const rollerTopInWrap=wrapH-rollerBottom-rh;
         const clipBottom=clamp(paperBottomInWrap-rollerTopInWrap,0,paperH);
@@ -35,11 +28,30 @@
         roller.style.setProperty('transition','none','important');
         roller.style.setProperty('visibility','visible','important');
         if(inner){inner.style.setProperty('opacity','1','important');inner.style.setProperty('transition','none','important')}
-        wrap.classList.toggle('is-open',progress>.005);wrap.classList.remove('is-settled');
+        wrap.classList.toggle('is-open',progress>.005);
+        if(progress>=1)wrap.classList.add('is-settled');
       };
-      let busy=false;const schedule=()=>{if(busy)return;busy=true;requestAnimationFrame(()=>{update();busy=false})};
-      window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule,{passive:true});update();
-    }
+      const playDrop=()=>{
+        if(triggered)return;
+        triggered=true;
+        const duration=1250,startTime=performance.now(),from=progress;
+        const easeOut=t=>1-Math.pow(1-t,3);
+        const tick=now=>{
+          const t=clamp((now-startTime)/duration);
+          render(from+(1-from)*easeOut(t));
+          if(t<1)requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const checkTrigger=()=>{
+        if(triggered)return;
+        const rect=section.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
+        if(rect.top<vh*.82)playDrop();
+      };
+      render(0);
+      window.addEventListener('scroll',checkTrigger,{passive:true});
+      window.addEventListener('resize',()=>{render(progress);checkTrigger()},{passive:true});
+      checkTrigger();
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
     if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('static-animate-in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});els.forEach(el=>io.observe(el))}else els.forEach(el=>el.classList.add('static-animate-in'));
