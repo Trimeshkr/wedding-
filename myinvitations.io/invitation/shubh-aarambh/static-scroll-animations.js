@@ -40,15 +40,30 @@
         wrap.classList.toggle('is-open',progress>.005);
         if(progress>=1)wrap.classList.add('is-settled');
       };
+      // Use a dedicated transparent drag target over the visible roller.
+      // The artwork itself is a decorative background span and is unreliable as a hit target.
+      const handle=document.createElement('div');
+      handle.setAttribute('aria-label','Pull invitation scroll down');
+      handle.setAttribute('role','slider');
+      handle.setAttribute('aria-valuemin','0');
+      handle.setAttribute('aria-valuemax','100');
+      handle.setAttribute('aria-valuenow','0');
+      handle.style.cssText='position:absolute;left:0;right:0;z-index:10;pointer-events:auto;cursor:grab;touch-action:none;background:transparent;';
+      wrap.appendChild(handle);
       let dragging=false,dragStartY=0,dragStartProgress=0;
       let settleFrame=0;
+      const positionHandle=()=>{
+        const wr=wrap.getBoundingClientRect(),rr=roller.getBoundingClientRect();
+        handle.style.top=(rr.top-wr.top)+'px';
+        handle.style.height=Math.max(48,rr.height)+'px';
+      };
       const animateTo=(target,duration=650)=>{
         if(settleFrame)cancelAnimationFrame(settleFrame);
         const from=progress,startTime=performance.now();
         const ease=t=>1-Math.pow(1-t,3);
         const tick=now=>{
           const t=clamp((now-startTime)/duration);
-          render(from+(target-from)*ease(t));
+          render(from+(target-from)*ease(t));positionHandle();
           if(t<1)settleFrame=requestAnimationFrame(tick);
           else settleFrame=0;
         };
@@ -57,19 +72,21 @@
       const onPointerDown=e=>{
         if(progress>=1||triggered)return;
         dragging=true;dragStartY=e.clientY;dragStartProgress=progress;
-        roller.setPointerCapture?.(e.pointerId);
+        handle.setPointerCapture(e.pointerId);
+        handle.style.cursor='grabbing';
         e.preventDefault();
       };
       const onPointerMove=e=>{
         if(!dragging)return;
         const distance=Math.max(0,e.clientY-dragStartY);
         const travel=Math.max(140,wrap.getBoundingClientRect().height*.72);
-        render(dragStartProgress+distance/travel);
+        render(dragStartProgress+distance/travel);positionHandle();
+        handle.setAttribute('aria-valuenow',String(Math.round(progress*100)));
         e.preventDefault();
       };
       const onPointerUp=e=>{
         if(!dragging)return;
-        dragging=false;
+        dragging=false;handle.style.cursor='grab';
         const distance=Math.max(0,e.clientY-dragStartY);
         const travel=Math.max(140,wrap.getBoundingClientRect().height*.72);
         const draggedProgress=clamp(dragStartProgress+distance/travel);
@@ -77,16 +94,12 @@
           triggered=true;animateTo(1,Math.max(350,700*(1-draggedProgress)));
         }else animateTo(0,450);
       };
-      // The user must physically pull the scroll/roller down to reveal it.
-      render(0);
-      roller.style.setProperty('pointer-events','auto','important');
-      roller.style.setProperty('cursor','grab','important');
-      roller.style.setProperty('touch-action','none','important');
-      roller.addEventListener('pointerdown',onPointerDown);
-      roller.addEventListener('pointermove',onPointerMove);
-      roller.addEventListener('pointerup',onPointerUp);
-      roller.addEventListener('pointercancel',onPointerUp);
-      window.addEventListener('resize',()=>{if(!triggered&&!dragging)render(progress)},{passive:true});
+      render(0);positionHandle();
+      handle.addEventListener('pointerdown',onPointerDown);
+      handle.addEventListener('pointermove',onPointerMove);
+      handle.addEventListener('pointerup',onPointerUp);
+      handle.addEventListener('pointercancel',onPointerUp);
+      window.addEventListener('resize',()=>{if(!triggered&&!dragging){render(progress);positionHandle()}},{passive:true});
     }
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
