@@ -40,39 +40,52 @@
         wrap.classList.toggle('is-open',progress>.005);
         if(progress>=1)wrap.classList.add('is-settled');
       };
-      const playDrop=()=>{
-        if(triggered)return;triggered=true;
-        const duration=1800,startTime=performance.now();
-        const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+      let dragging=false,dragStartY=0,dragStartProgress=0;
+      let settleFrame=0;
+      const animateTo=(target,duration=650)=>{
+        if(settleFrame)cancelAnimationFrame(settleFrame);
+        const from=progress,startTime=performance.now();
+        const ease=t=>1-Math.pow(1-t,3);
         const tick=now=>{
           const t=clamp((now-startTime)/duration);
-          render(ease(t));
-          if(t<1)requestAnimationFrame(tick);
+          render(from+(target-from)*ease(t));
+          if(t<1)settleFrame=requestAnimationFrame(tick);
+          else settleFrame=0;
         };
-        requestAnimationFrame(tick);
+        settleFrame=requestAnimationFrame(tick);
       };
-      // Always establish a closed initial state before watching visibility.
+      const onPointerDown=e=>{
+        if(progress>=1||triggered)return;
+        dragging=true;dragStartY=e.clientY;dragStartProgress=progress;
+        wrap.setPointerCapture?.(e.pointerId);
+        e.preventDefault();
+      };
+      const onPointerMove=e=>{
+        if(!dragging)return;
+        const distance=Math.max(0,e.clientY-dragStartY);
+        const travel=Math.max(140,wrap.getBoundingClientRect().height*.72);
+        render(dragStartProgress+distance/travel);
+        e.preventDefault();
+      };
+      const onPointerUp=e=>{
+        if(!dragging)return;
+        dragging=false;
+        const distance=Math.max(0,e.clientY-dragStartY);
+        const travel=Math.max(140,wrap.getBoundingClientRect().height*.72);
+        const draggedProgress=clamp(dragStartProgress+distance/travel);
+        if(draggedProgress>=.28){
+          triggered=true;animateTo(1,Math.max(350,700*(1-draggedProgress)));
+        }else animateTo(0,450);
+      };
+      // The user must physically pull the scroll/roller down to reveal it.
       render(0);
-      // Trigger when the section enters view, including when it is already
-      // visible on initial page load. No scroll-direction dependency.
-      const checkVisible=()=>{
-        if(triggered)return;
-        const rect=section.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
-        if(rect.top<vh*.88&&rect.bottom>0)playDrop();
-      };
-      if('IntersectionObserver'in window){
-        const io=new IntersectionObserver(entries=>{
-          if(entries.some(e=>e.isIntersecting)){playDrop();io.disconnect();}
-        },{threshold:0.05,rootMargin:'0px 0px -5% 0px'});
-        io.observe(section);
-      }else{
-        window.addEventListener('scroll',checkVisible,{passive:true});
-        checkVisible();
-      }
-      // Covers browsers/layouts where observer delivery is delayed or the
-      // section is already in the viewport before observer setup.
-      requestAnimationFrame(checkVisible);
-      window.addEventListener('resize',()=>{if(!triggered)render(0)},{passive:true});
+      roller.style.setProperty('cursor','grab','important');
+      roller.style.setProperty('touch-action','none','important');
+      roller.addEventListener('pointerdown',onPointerDown);
+      roller.addEventListener('pointermove',onPointerMove);
+      roller.addEventListener('pointerup',onPointerUp);
+      roller.addEventListener('pointercancel',onPointerUp);
+      window.addEventListener('resize',()=>{if(!triggered&&!dragging)render(progress)},{passive:true});
     }
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
