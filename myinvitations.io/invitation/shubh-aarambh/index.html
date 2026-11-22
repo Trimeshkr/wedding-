@@ -189,7 +189,7 @@
     <meta property="og:site_name" content="My Invitations" />
     <meta property="article:publisher" content="https://www.facebook.com/myinvitations.io/" />
     <meta property="article:modified_time" content="2026-11-19T09:18:31+00:00" />
-    <meta property="og:image" content="https://myinvitations.io/wp-content/uploads/2026/10/cover-poster-2.jpg" />
+    <meta property="og:image" content="../../wp-content/uploads/2026/10/cover-poster-2.jpg" />
     <meta property="og:image:width" content="720" />
     <meta property="og:image:height" content="1280" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -9839,6 +9839,31 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             border-radius: 0;
         }
     </style>
+<style id="static-preview-failsafe">
+#im-preview-loader { display:none!important; }
+.im-cover-video { background:#f5eee5!important; }
+.im-cover-video__video { background:#f5eee5!important; }
+</style>
+<script id="static-preview-failsafe-script">
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('video.im-cover-video__video').forEach(function(v){
+    v.addEventListener('error',function(){v.style.display='none';});
+    v.addEventListener('stalled',function(){v.style.display='none';});
+  });
+  document.querySelectorAll('img').forEach(function(img){
+    img.addEventListener('error',function(){img.style.visibility='hidden';});
+  });
+});
+</script>
+<style id="static-cover-video-style">
+.im-cover-video{position:fixed!important;inset:0!important;z-index:99999!important;display:flex;align-items:center;justify-content:center;background:#000!important;opacity:1;transition:opacity 1.2s ease,visibility 1.2s ease}
+.im-cover-video.is-closing{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.im-cover-video__video{width:100%;height:100%;object-fit:cover;background:#000}
+.im-cover-video__poster-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:opacity .4s}
+.im-cover-video.is-video-ready .im-cover-video__poster-overlay{opacity:0}
+.static-cover-video-control{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:5;border:1px solid rgba(255,255,255,.65);border-radius:999px;padding:12px 20px;background:rgba(25,15,12,.62);color:#fff;font:500 14px system-ui;backdrop-filter:blur(8px);cursor:pointer}
+.static-cover-video-control[hidden]{display:none!important}
+</style>
 </head>
 
 <body class="wp-singular invitation_mgmt-template-default single single-invitation_mgmt postid-96034 wp-custom-logo wp-embed-responsive wp-theme-my-invitations theme-my-invitations invitation-website woocommerce-no-js woocommerce-active ipw-dynamic-mode">
@@ -9924,28 +9949,28 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
 
     <main class="invitation-website-main" id="invitation-website-main">
 
-        <div class="wp-block-invitation-management-petal-field-basic im-petal-field ticss-9f7a1444"><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:9.360662364633754%;width:15.855459914595324px;height:15.855459914595324px;animation-delay:0.8028075221227482s;animation-duration:24.407811949087773s;--im-petal-drift:-86.17410582781304px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:33.573129419528414%;width:12.917511181765503px;height:12.917511181765503px;animation-delay:12.407811949087773s;animation-duration:13.516193265502807s;--im-petal-drift:-2.588147292844951px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:5.734339443733916%;width:21.665558698078303px;height:21.665558698078303px;animation-delay:1.5161932655028068s;animation-duration:18.83529971772805s;--im-petal-drift:-10.658768611319829px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:88.6272282077698%;width:13.45527335323423px;height:13.45527335323423px;animation-delay:6.835299717728049s;animation-duration:18.321714724734193s;--im-petal-drift:-108.27624136349186px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:10.82995189644862%;width:17.464905256542476px;height:17.464905256542476px;animation-delay:6.321714724734193s;animation-duration:12.109693731414154s;--im-petal-drift:-102.50848688214319px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:48.823569412343204%;width:17.07775625107239px;height:17.07775625107239px;animation-delay:0.10969373141415417s;animation-duration:12.476732652954524s;--im-petal-drift:48.53171290946193px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:45.155105176672805%;width:12.395030349165234px;height:12.395030349165234px;animation-delay:0.4767326529545244s;animation-duration:22.088381730602123s;--im-petal-drift:73.57266729930416px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:0.7835266529582441%;width:12.671710461282268px;height:12.671710461282268px;animation-delay:10.088381730602123s;animation-duration:23.68189700995572s;--im-petal-drift:88.72088797477772px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:3.40523323538946%;width:19.917133189946835px;height:19.917133189946835px;animation-delay:11.68189700995572s;animation-duration:24.645874689304037s;--im-petal-drift:11.87571618531365px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:72.05986950430088%;width:21.118351808128907px;height:21.118351808128907px;animation-delay:12.645874689304037s;animation-duration:19.75572739361087s;--im-petal-drift:34.420995710534044px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:83.44212149968371%;width:21.84501439552177px;height:21.84501439552177px;animation-delay:7.755727393610869s;animation-duration:21.190426999761257s;--im-petal-drift:40.51207648939453px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:90.3276763521717%;width:18.158739118875438px;height:18.158739118875438px;animation-delay:9.190426999761257s;animation-duration:21.57804123114329s;--im-petal-drift:98.10766391747165px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:55.398052811506204%;width:19.24023981154869px;height:19.24023981154869px;animation-delay:9.578041231143288s;animation-duration:25.243214976566378s;--im-petal-drift:18.8801103818696px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:65.64590714115184%;width:19.532429938271108px;height:19.532429938271108px;animation-delay:13.243214976566378s;animation-duration:20.201461569755338s;--im-petal-drift:-53.165036938735284px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:68.41458022245206%;width:22.295299550453457px;height:22.295299550453457px;animation-delay:8.201461569755338s;animation-duration:15.616770376625936s;--im-petal-drift:-97.79900552413892px"
-            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="https://myinvitations.io/wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:94.59439268975984%;width:18.494741037452567px;height:18.494741037452567px;animation-delay:3.6167703766259365s;animation-duration:12.77642692119116s;--im-petal-drift:36.9857350300299px"
+        <div class="wp-block-invitation-management-petal-field-basic im-petal-field ticss-9f7a1444"><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:9.360662364633754%;width:15.855459914595324px;height:15.855459914595324px;animation-delay:0.8028075221227482s;animation-duration:24.407811949087773s;--im-petal-drift:-86.17410582781304px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:33.573129419528414%;width:12.917511181765503px;height:12.917511181765503px;animation-delay:12.407811949087773s;animation-duration:13.516193265502807s;--im-petal-drift:-2.588147292844951px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:5.734339443733916%;width:21.665558698078303px;height:21.665558698078303px;animation-delay:1.5161932655028068s;animation-duration:18.83529971772805s;--im-petal-drift:-10.658768611319829px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:88.6272282077698%;width:13.45527335323423px;height:13.45527335323423px;animation-delay:6.835299717728049s;animation-duration:18.321714724734193s;--im-petal-drift:-108.27624136349186px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:10.82995189644862%;width:17.464905256542476px;height:17.464905256542476px;animation-delay:6.321714724734193s;animation-duration:12.109693731414154s;--im-petal-drift:-102.50848688214319px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:48.823569412343204%;width:17.07775625107239px;height:17.07775625107239px;animation-delay:0.10969373141415417s;animation-duration:12.476732652954524s;--im-petal-drift:48.53171290946193px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:45.155105176672805%;width:12.395030349165234px;height:12.395030349165234px;animation-delay:0.4767326529545244s;animation-duration:22.088381730602123s;--im-petal-drift:73.57266729930416px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:0.7835266529582441%;width:12.671710461282268px;height:12.671710461282268px;animation-delay:10.088381730602123s;animation-duration:23.68189700995572s;--im-petal-drift:88.72088797477772px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:3.40523323538946%;width:19.917133189946835px;height:19.917133189946835px;animation-delay:11.68189700995572s;animation-duration:24.645874689304037s;--im-petal-drift:11.87571618531365px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:72.05986950430088%;width:21.118351808128907px;height:21.118351808128907px;animation-delay:12.645874689304037s;animation-duration:19.75572739361087s;--im-petal-drift:34.420995710534044px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:83.44212149968371%;width:21.84501439552177px;height:21.84501439552177px;animation-delay:7.755727393610869s;animation-duration:21.190426999761257s;--im-petal-drift:40.51207648939453px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:90.3276763521717%;width:18.158739118875438px;height:18.158739118875438px;animation-delay:9.190426999761257s;animation-duration:21.57804123114329s;--im-petal-drift:98.10766391747165px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:55.398052811506204%;width:19.24023981154869px;height:19.24023981154869px;animation-delay:9.578041231143288s;animation-duration:25.243214976566378s;--im-petal-drift:18.8801103818696px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:65.64590714115184%;width:19.532429938271108px;height:19.532429938271108px;animation-delay:13.243214976566378s;animation-duration:20.201461569755338s;--im-petal-drift:-53.165036938735284px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:68.41458022245206%;width:22.295299550453457px;height:22.295299550453457px;animation-delay:8.201461569755338s;animation-duration:15.616770376625936s;--im-petal-drift:-97.79900552413892px"
+            /><img decoding="async" class="im-petal-field__petal im-petal-field__petal--icon" src="../../wp-content/uploads/2026/09/midnight-waltz-rosePetal.webp" alt="" style="left:94.59439268975984%;width:18.494741037452567px;height:18.494741037452567px;animation-delay:3.6167703766259365s;animation-duration:12.77642692119116s;--im-petal-drift:36.9857350300299px"
             /></div>
 
 
         <div style="position:fixed;z-index:99999;background-color:#000000" class="im-cover-video ticss-6cc150c2 wp-block-invitation-management-cover-cover-with-video" data-duration="10">
-            <video class="im-cover-video__video" src="https://myinvitations.io/wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="https://myinvitations.io/wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline disablepictureinpicture preload="auto"></video>
-            <img decoding="async" class="im-cover-video__poster-overlay" src="https://myinvitations.io/wp-content/uploads/2026/10/cover-poster-2.jpg" alt="">
+            <video class="im-cover-video__video" src="../../wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="../../wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline muted autoplay preload="auto"></video>
+            <img decoding="async" class="im-cover-video__poster-overlay" src="../../wp-content/uploads/2026/10/cover-poster-2.jpg" alt="">
 
         </div>
 
@@ -9954,10 +9979,10 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             class="im-hero-palace im-hero-palace--sway im-hero-palace--zoom ticss-13f70375 wp-block-invitation-management-hero-palace-arch" data-parallax="2" data-scroll-next-section-root="true">
             <noscript><style>.im-hero-palace .im-hero-palace__arch,.im-hero-palace .im-hero-palace__details>*,.im-hero-palace .im-hero-palace__couple,.im-hero-palace .im-hero-palace__flower,.im-hero-palace .im-hero-palace__birds,.im-hero-palace .im-hero-palace__details::before{opacity:1;translate:none;scale:none}</style></noscript>
 
-            <div class="im-hero-palace__bg im-hero-palace__bg--has-mobile" style="background-image:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Shubh-Aarambh-Desktop.webp&quot;);--im-palace-bg-mobile:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Shubh-Aarambh-Mobile.webp&quot;)"
+            <div class="im-hero-palace__bg im-hero-palace__bg--has-mobile" style="background-image:url(&quot;../../wp-content/uploads/2026/10/Shubh-Aarambh-Desktop.webp&quot;);--im-palace-bg-mobile:url(&quot;../../wp-content/uploads/2026/10/Shubh-Aarambh-Mobile.webp&quot;)"
                 aria-hidden="true"></div>
 
-            <div class="im-hero-palace__birds im-hero-palace__birds--image" aria-hidden="true" style="--im-bird-sheet:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Doves-in-Flight.webp&quot;);--im-bird-frames:6;--im-bird-cell:0.5">
+            <div class="im-hero-palace__birds im-hero-palace__birds--image" aria-hidden="true" style="--im-bird-sheet:url(&quot;../../wp-content/uploads/2026/10/Doves-in-Flight.webp&quot;);--im-bird-frames:6;--im-bird-cell:0.5">
                 <span class="im-hero-palace__bird" style="top:25.12%;width:56.1px;animation-duration:22.80s;animation-delay:-8.52s;--im-bird-flap:1.46s;--im-bird-wing:0.73s;--im-bird-wing-at:-0.12s"><span class="im-hero-palace__bird-sprite"></span></span>
                 <span class="im-hero-palace__bird" style="top:4.37%;width:58.5px;animation-duration:27.23s;animation-delay:-8.96s;--im-bird-flap:1.88s;--im-bird-wing:0.63s;--im-bird-wing-at:-0.52s"><span class="im-hero-palace__bird-sprite"></span></span>
                 <span class="im-hero-palace__bird" style="top:16.40%;width:55.4px;animation-duration:30.77s;animation-delay:-5.51s;--im-bird-flap:1.45s;--im-bird-wing:0.73s;--im-bird-wing-at:-0.41s"><span class="im-hero-palace__bird-sprite"></span></span>
@@ -9995,13 +10020,13 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         </section>
 
 
-        <section style="--im-scroll-width:560px;--im-scroll-frame:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Scroll-Frame.webp&quot;);--im-scroll-hw:1.7768;--im-scroll-slice-top:20;--im-scroll-slice-bottom:26;--im-scroll-slice-side:17;--im-scroll-slices:20% 17% 26% fill;--im-scroll-content-top:13;--im-scroll-top-roller:11;--im-scroll-roller-top:84.9;--im-scroll-roller-bottom:92.3"
+        <section style="--im-scroll-width:560px;--im-scroll-frame:url(&quot;../../wp-content/uploads/2026/10/Scroll-Frame.webp&quot;);--im-scroll-hw:1.7768;--im-scroll-slice-top:20;--im-scroll-slice-bottom:26;--im-scroll-slice-side:17;--im-scroll-slices:20% 17% 26% fill;--im-scroll-content-top:13;--im-scroll-top-roller:11;--im-scroll-roller-top:84.9;--im-scroll-roller-bottom:92.3"
             class="im-wording im-wording--framed ticss-f54c1b4f wp-block-invitation-management-couple-invitation-wording">
             <div class="im-wording__scroll">
                 <div class="im-wording__wrap" data-animate="unroll">
                     <div class="im-wording__paper">
                         <div class="im-wording__inner">
-                            <img class="im-wording__icon" src="https://myinvitations.io/wp-content/uploads/2026/10/Ganesha-Emblem.png" alt="" width="90" style="width:90px" loading="lazy" decoding="async">
+                            <img class="im-wording__icon" src="../../wp-content/uploads/2026/10/Ganesha-Emblem.png" alt="" width="90" style="width:90px" loading="lazy" decoding="async">
 
                             <p class="im-wording__shloka" style="font-size:16px;font-family:inherit;font-weight:500;color:#b4673f">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ,<br /> निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</p>
 
@@ -10082,7 +10107,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                             <div class="im-couple-profile__photo-wrap">
                                 <div class="im-couple-profile__photo-glow"></div>
                                 <div class="im-couple-profile__photo-frame" data-animate="clip-circle" data-animate-duration="0.9" data-animate-delay="0.2">
-                                    <img decoding="async" src="https://myinvitations.io/wp-content/uploads/2026/08/groom.png" alt="Kapil Sharma" class="im-couple-profile__photo">
+                                    <img decoding="async" src="../../wp-content/uploads/2026/08/groom.png" alt="Kapil Sharma" class="im-couple-profile__photo">
                                 </div>
                             </div>
 
@@ -10127,7 +10152,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                             <div class="im-couple-profile__photo-wrap">
                                 <div class="im-couple-profile__photo-glow"></div>
                                 <div class="im-couple-profile__photo-frame" data-animate="clip-circle" data-animate-duration="0.9" data-animate-delay="0.2">
-                                    <img decoding="async" src="https://myinvitations.io/wp-content/uploads/2026/08/bride.png" alt="Sapna Sharma" class="im-couple-profile__photo">
+                                    <img decoding="async" src="../../wp-content/uploads/2026/08/bride.png" alt="Sapna Sharma" class="im-couple-profile__photo">
                                 </div>
                             </div>
 
@@ -10318,32 +10343,32 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                         </div>
                         <button type="button" class="im-gallery-stack__card" data-stack-card data-photo-index="0" style="--im-stack-tilt:-2.6deg;z-index:1" aria-label="Open photo 1">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-1.png" alt=""  decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-1.png" alt=""  decoding="async" draggable="false">
 							</span>
 													</button>
                         <button type="button" class="im-gallery-stack__card is-waiting" data-stack-card data-photo-index="1" style="--im-stack-tilt:2.2deg;z-index:2" aria-label="Open photo 2">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-2.png" alt=""  decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-2.png" alt=""  decoding="async" draggable="false">
 							</span>
 													</button>
                         <button type="button" class="im-gallery-stack__card is-waiting" data-stack-card data-photo-index="2" style="--im-stack-tilt:-1.4deg;z-index:3" aria-label="Open photo 3">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-3.png" alt="" loading="lazy" decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-3.png" alt="" loading="lazy" decoding="async" draggable="false">
 							</span>
 													</button>
                         <button type="button" class="im-gallery-stack__card is-waiting" data-stack-card data-photo-index="3" style="--im-stack-tilt:3deg;z-index:4" aria-label="Open photo 4">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-4.png" alt="" loading="lazy" decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-4.png" alt="" loading="lazy" decoding="async" draggable="false">
 							</span>
 													</button>
                         <button type="button" class="im-gallery-stack__card is-waiting" data-stack-card data-photo-index="4" style="--im-stack-tilt:-3.2deg;z-index:5" aria-label="Open photo 5">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-5.png" alt="" loading="lazy" decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-5.png" alt="" loading="lazy" decoding="async" draggable="false">
 							</span>
 													</button>
                         <button type="button" class="im-gallery-stack__card is-waiting" data-stack-card data-photo-index="5" style="--im-stack-tilt:1.6deg;z-index:6" aria-label="Open photo 6">
 							<span class="im-gallery-stack__photo-wrap">
-								<img class="im-gallery-stack__photo" src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-6.png" alt="" loading="lazy" decoding="async" draggable="false">
+								<img class="im-gallery-stack__photo" src="../../wp-content/uploads/2026/08/gallery-6.png" alt="" loading="lazy" decoding="async" draggable="false">
 							</span>
 													</button>
                     </div>
@@ -10359,22 +10384,22 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                 <div class="im-gallery-coverflow__lightbox-viewport" data-lightbox-viewport>
                     <div class="im-gallery-coverflow__lightbox-track" data-lightbox-track>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-1.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-1.png" alt="" draggable="false">
                         </div>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-2.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-2.png" alt="" draggable="false">
                         </div>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-3.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-3.png" alt="" draggable="false">
                         </div>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-4.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-4.png" alt="" draggable="false">
                         </div>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-5.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-5.png" alt="" draggable="false">
                         </div>
                         <div class="im-gallery-coverflow__lightbox-slide">
-                            <img class="im-gallery-coverflow__lightbox-img" data-src="https://myinvitations.io/wp-content/uploads/2026/08/gallery-6.png" alt="" draggable="false">
+                            <img class="im-gallery-coverflow__lightbox-img" data-src="../../wp-content/uploads/2026/08/gallery-6.png" alt="" draggable="false">
                         </div>
                     </div>
                 </div>
@@ -10388,7 +10413,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         </section>
 
 
-        <section style="background-color:#f4c6b8;--im-flipcal-max-w:520px;--im-flipcal-board:#8c1d3a;--im-flipcal-page:#faf3ea;--im-flipcal-page-img:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Subtle-Ivory-Paper-Texture.webp&quot;);--im-flipcal-front-img:url(&quot;https://myinvitations.io/wp-content/uploads/2026/10/Invitation-Backdrop.webp&quot;);--im-flipcal-cover-tint:35%;--im-flipcal-counter:#8b3a4b;--im-scroll-photo-border:#fffaf3;--im-btn-edge:#d4a64a;--im-btn-dir-bg:#9e2a4b;--im-btn-dir-color:#fff3e6;--im-btn-cal-bg:#fdf3ec;--im-btn-cal-color:#2b1f1d"
+        <section style="background-color:#f4c6b8;--im-flipcal-max-w:520px;--im-flipcal-board:#8c1d3a;--im-flipcal-page:#faf3ea;--im-flipcal-page-img:url(&quot;../../wp-content/uploads/2026/10/Subtle-Ivory-Paper-Texture.webp&quot;);--im-flipcal-front-img:url(&quot;../../wp-content/uploads/2026/10/Invitation-Backdrop.webp&quot;);--im-flipcal-cover-tint:35%;--im-flipcal-counter:#8b3a4b;--im-scroll-photo-border:#fffaf3;--im-btn-edge:#d4a64a;--im-btn-dir-bg:#9e2a4b;--im-btn-dir-color:#fff3e6;--im-btn-cal-bg:#fdf3ec;--im-btn-cal-color:#2b1f1d"
             class="im-flipcal has-front-img ticss-91c84257 wp-block-invitation-management-event-flip-calendar" data-flipcal="">
             <div class="im-flipcal__track" data-flipcal-track>
                 <div class="im-flipcal__sticky">
@@ -10404,7 +10429,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                     <p class="im-flipcal__tap-hint" aria-hidden="true"><span class="im-flipcal__tap-dot"></span>Tap the cover to open</p>
                                     <div class="im-flipcal__face">
                                         <div class="im-flipcal__cover" data-flipcal-content>
-                                            <img class="im-flipcal__cover-icon" src="https://myinvitations.io/wp-content/uploads/2026/10/Ganesha-Emblem-1.png" alt="" style="width:40px" decoding="async">
+                                            <img class="im-flipcal__cover-icon" src="../../wp-content/uploads/2026/10/Ganesha-Emblem-1.png" alt="" style="width:40px" decoding="async">
                                             <h2 class="im-flipcal__title" style="font-size:42px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8b3a4b;--im-flipcal-title-size:42px">Wedding Functions</h2>
                                             <span class="im-flipcal__ornament" aria-hidden="true">&#10086;</span>
                                             <p class="im-flipcal__subtitle" style="font-size:18px;font-family:&#039;Jost&#039;, sans-serif;font-weight:400;color:#8b3a4b">We would love to see you at each one.</p>
@@ -10453,7 +10478,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 01</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding-haldi.webp" alt="Haldi" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding-haldi.webp" alt="Haldi" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">Turmeric, marigolds and laughter — a golden morning to bless the couple.</p>
@@ -10500,7 +10525,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 02</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding-mehndi.webp" alt="Mehndi" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding-mehndi.webp" alt="Mehndi" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">Intricate henna, jasmine strands and songs under the evening trees.</p>
@@ -10547,7 +10572,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 03</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding-sangeet.webp" alt="Sangeet" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding-sangeet.webp" alt="Sangeet" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">Music, dance and a night of celebration with family and friends.</p>
@@ -10594,7 +10619,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 04</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding.webp" alt="Wedding" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding.webp" alt="Wedding" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">The sacred thaali ceremony under the floral mandapam, amid nadaswaram and blessings.</p>
@@ -10641,7 +10666,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 05</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding-reception.webp" alt="Reception" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding-reception.webp" alt="Reception" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">An elegant evening to greet the newlyweds and share a festive feast.</p>
@@ -10688,7 +10713,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
                                             <p class="im-flipcal__card-eyebrow" style="font-size:13px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#6b4434">Event · 06</p>
                                             <div class="im-flipcal__media">
                                                 <span class="im-flipcal__image-clip">
-													<img class="im-flipcal__image" src="https://myinvitations.io/wp-content/uploads/2026/10/wedding-custom.webp" alt="Custom Event" decoding="async">
+													<img class="im-flipcal__image" src="../../wp-content/uploads/2026/10/wedding-custom.webp" alt="Custom Event" decoding="async">
 												</span>
                                             </div>
                                             <p class="im-flipcal__note" style="font-size:17px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:400;color:#8c5c68">Celebrate this memorable occasion with us as we create beautiful moments together.</p>
@@ -10965,7 +10990,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
 
 
         <div class="im-music-toggle wp-block-invitation-management-music-basic" data-volume="0.8" data-start-from-cover="false" data-start-on-load="false" data-fade-in="1" data-fade-out="1">
-            <audio class="im-music-toggle__audio" src="https://myinvitations.io/wp-content/uploads/2026/10/ishq_hai__official_music_video___mismatched_season_3__a_netflix_series-_audiotrimmer.com_-1772878787530.wav" loop preload="auto"></audio>
+            <audio class="im-music-toggle__audio" src="../../wp-content/uploads/2026/10/ishq_hai__official_music_video___mismatched_season_3__a_netflix_series-_audiotrimmer.com_-1772878787530.wav" loop preload="auto"></audio>
 
             <button type="button" class="im-music-toggle__btn" style="background-color:rgba(255,255,255,0.7);color:#3a2f28" aria-label="Play background music">
 		<span class="im-music-toggle__icon im-music-toggle__icon--note"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3a2f28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
@@ -11317,9 +11342,9 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             left: 0;
             background-repeat: repeat, no-repeat;
             background-size: 105px 105px, 100% 100%;
-            mask: url(https://myinvitations.io/wp-content/uploads/2026/10/perr-tile-83d714.svg);
+            mask: url(../../wp-content/uploads/2026/10/perr-tile-83d714.svg);
             background-color: #8c5a2c;
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/perr-tile-83d714.svg);
+            background-image: url(../../wp-content/uploads/2026/10/perr-tile-83d714.svg);
         }
 
         body .im-cover-video__play-btn {
@@ -11352,7 +11377,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             content: '';
             width: 100%;
             height: 100%;
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/cover-poster-2.jpg);
+            background-image: url(../../wp-content/uploads/2026/10/cover-poster-2.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -11378,7 +11403,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         .im-hero-palace.is-opened .im-hero-palace__details>:first-child::before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Ganesha-Emblem.png);
+            background-image: url(../../wp-content/uploads/2026/10/Ganesha-Emblem.png);
             width: 50px;
             height: 50px;
             background-size: contain;
@@ -11393,7 +11418,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         .im-hero-palace::after {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/lantern.webp);
+            background-image: url(../../wp-content/uploads/2026/10/lantern.webp);
             width: 93px;
             height: 223px;
             background-size: auto 100%;
@@ -11420,7 +11445,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         .im-hero-palace__birds:after {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Blush-Floral.webp);
+            background-image: url(../../wp-content/uploads/2026/10/Blush-Floral.webp);
             width: 250px;
             height: 250px;
             background-size: contain;
@@ -11511,7 +11536,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         .im-wording:before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
             width: calc(100% + 10%);
             height: 72px;
             top: -41px;
@@ -11558,7 +11583,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             content: '';
             width: 230px;
             height: 230px;
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Blush-Floral.webp);
+            background-image: url(../../wp-content/uploads/2026/10/Blush-Floral.webp);
             background-size: contain;
             background-repeat: no-repeat;
         }
@@ -11591,7 +11616,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-couple-profile__heading::after {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/lantern.webp);
+            background-image: url(../../wp-content/uploads/2026/10/lantern.webp);
             width: 93px;
             height: 223px;
             background-size: auto 100%;
@@ -11666,7 +11691,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-couple-profile__photo-wrap::before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Ornate-Golden-Diamond-Floral-Frame.png);
+            background-image: url(../../wp-content/uploads/2026/10/Ornate-Golden-Diamond-Floral-Frame.png);
             width: calc(100% + 50%);
             height: calc(100% + 50%);
             top: -25%;
@@ -11702,7 +11727,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         .im-events-arch__eyebrow::before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Golden-Temple-Divider-Ornament.png);
+            background-image: url(../../wp-content/uploads/2026/10/Golden-Temple-Divider-Ornament.png);
             width: 180px;
             height: 60px;
             background-size: contain;
@@ -11832,7 +11857,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
             width: 50px;
             position: absolute;
             content: '';
-            background-image: url('https://myinvitations.io/wp-content/uploads/2026/10/icon1-8c3664.svg');
+            background-image: url('../../wp-content/uploads/2026/10/icon1-8c3664.svg');
             height: 50px;
             background-size: contain;
             background-repeat: no-repeat;
@@ -11901,7 +11926,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         }
 
         body .im-door-countdown {
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/red-bg.webp);
+            background-image: url(../../wp-content/uploads/2026/10/red-bg.webp);
             background-size: contain;
             background-repeat: repeat;
         }
@@ -11909,7 +11934,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-couple-profile::before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
             width: calc(100% + 10%);
             height: 72px;
             bottom: -41px;
@@ -11938,7 +11963,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         }
 
         body .im-door-card__door {
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Warm-Ivory.webp);
+            background-image: url(../../wp-content/uploads/2026/10/Warm-Ivory.webp);
         }
 
         .im-door-card__door.im-door-card__door--left:before {
@@ -11972,7 +11997,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         }
 
         body .im-door-card__pull-ring {
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Gold-PULL.webp);
+            background-image: url(../../wp-content/uploads/2026/10/Gold-PULL.webp);
             background-size: 100%;
             background-repeat: no-repeat;
             border: none;
@@ -12016,7 +12041,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-gallery-coverflow:before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
             width: calc(100% + 10%);
             height: 72px;
             top: -70px;
@@ -12070,7 +12095,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-guest-rsvp__grid:before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/wedding-vanue.webp);
+            background-image: url(../../wp-content/uploads/2026/10/wedding-vanue.webp);
             background-size: cover;
             box-shadow: 0 20px 50px -25px color-mix(in oklab, var(--deep-rose) 35%, transparent);
             border-radius: 30px;
@@ -12084,7 +12109,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
 
         body .im-guest-rsvp {
             background-color: transparent !important;
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/red-bg.webp);
+            background-image: url(../../wp-content/uploads/2026/10/red-bg.webp);
             background-size: contain;
             background-repeat: repeat;
             padding-bottom: 100px;
@@ -12093,7 +12118,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-flipcal::before {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
             width: calc(100% + 10%);
             height: 72px;
             bottom: -41px;
@@ -12194,7 +12219,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-love-footer .im-love-footer__initials-circle {
             width: 135px;
             height: 135px;
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/Seal-Badge.webp);
+            background-image: url(../../wp-content/uploads/2026/10/Seal-Badge.webp);
             background-size: contain;
             border: none;
             background-repeat: no-repeat;
@@ -12236,7 +12261,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
         body .im-wedding-quote::after {
             position: absolute;
             content: '';
-            background-image: url(https://myinvitations.io/wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
             width: calc(100% + 10%);
             height: 72px;
             top: -57px;
@@ -12293,7 +12318,7 @@ body.home.blog.logged-in.admin-bar.ast-header-break-point.ast-separate-container
     <script data-wp-strategy="defer" defer id="invitation-management-event-flip-calendar-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/event-flip-calendar.js?ver=1792696305"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-door-reveal-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/door-reveal.js?ver=1786448749"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-music-toggle-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/music-toggle.js?ver=1793558679"></script>
-    <script data-wp-strategy="defer" defer id="invitation-management-cover-video-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/cover-video.js?ver=1793558679"></script>
+    <script src="./static-cover-video.js"></script>
     <script id="wc-facebook-signals-js-extra">
         var wc_facebook_signals_params = {
             "ajax_url": "https://myinvitations.io/wp-admin/admin-ajax.php",
