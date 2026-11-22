@@ -17,24 +17,25 @@
       const render=(value)=>{
         progress=clamp(value);
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open');
-        const wrapRect=wrap.getBoundingClientRect(),paperRect=paper.getBoundingClientRect(),rollerRect=roller.getBoundingClientRect();
-        const paperH=paperRect.height,wrapH=wrapRect.height,rollerH=rollerRect.height;
+        const wrapRect=wrap.getBoundingClientRect(),paperRect=paper.getBoundingClientRect();
+        const paperH=paperRect.height,wrapH=wrapRect.height,rollerH=roller.getBoundingClientRect().height;
         if(!paperH||!wrapH||!rollerH)return;
         // Animate the roller's bottom offset. The paper reveal boundary is then
         // derived from the roller's real top edge, so both remain geometrically
         // locked together throughout the animation.
         const startOffset=wrapH-closed;
         const bottomOffset=startOffset+(open-startOffset)*progress;
-        const rollerBottomY=wrapH-bottomOffset;
-        const rollerTopY=rollerBottomY-rollerH;
-        const revealEdge=clamp(rollerTopY-paperRect.top+wrapRect.top,0,paperH);
+        // Set the roller first, then measure its actual rendered edge. This avoids
+        // mixing the wrapper's coordinate space with the paper's coordinate space.
+        roller.style.setProperty('bottom',`${bottomOffset}px`,'important');
+        roller.style.setProperty('transition','none','important');
+        roller.style.setProperty('visibility','visible','important');
+        const actualRollerTop=roller.getBoundingClientRect().top;
+        const revealEdge=clamp(actualRollerTop-paperRect.top,0,paperH);
         const clipBottom=paperH-revealEdge;
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
         paper.style.setProperty('clip-path',`inset(0 0 ${clipBottom}px 0)`,'important');
         paper.style.setProperty('transition','none','important');
-        roller.style.setProperty('bottom',`${bottomOffset}px`,'important');
-        roller.style.setProperty('transition','none','important');
-        roller.style.setProperty('visibility','visible','important');
         if(inner){inner.style.setProperty('opacity',String(clamp(revealEdge/Math.max(1,paperH*.18))),'important');inner.style.setProperty('transition','none','important')}
         wrap.classList.toggle('is-open',progress>.005);
         if(progress>=1)wrap.classList.add('is-settled');
