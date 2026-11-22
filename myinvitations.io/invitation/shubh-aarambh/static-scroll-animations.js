@@ -12,10 +12,13 @@
     if(wrap&&section){
       const paper=wrap.querySelector('.im-wording__paper'),roller=wrap.querySelector('.im-wording__roller'),inner=wrap.querySelector('.im-wording__inner');
       wrap.classList.add('is-armed');wrap.classList.remove('is-open','is-settled');
+      let maxProgress=0;
       const update=()=>{
         const rect=section.getBoundingClientRect(),vh=window.innerHeight||document.documentElement.clientHeight;
         const start=vh*.82,end=-rect.height*.35;
-        const progress=clamp((start-rect.top)/(start-end));
+        // One-way unroll: progress may advance with downward scrolling, never regress.
+        maxProgress=Math.max(maxProgress,clamp((start-rect.top)/(start-end)));
+        const progress=maxProgress;
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open'),rh=pxVar(wrap,'--im-scroll-roller-h');
         const paperH=paper.getBoundingClientRect().height;
         // Original geometry: closed roller bottom = wrap height - closed offset.
