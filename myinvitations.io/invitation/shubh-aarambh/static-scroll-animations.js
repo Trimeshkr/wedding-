@@ -202,6 +202,55 @@
       update();
       grid._staticCountdownTimer=setInterval(update,1000);
     });
+    // Fallback flip-calendar interaction for static exports where the original
+    // page-flip library did not initialize (no .stf__item nodes are created).
+    document.querySelectorAll('[data-flipcal-book]').forEach(book=>{
+      const pages=[...book.querySelectorAll('[data-flipcal-page]')];
+      if(!pages.length||book.dataset.staticFlipReady)return;
+      if(book.querySelector('.stf__item'))return;
+      book.dataset.staticFlipReady='true';
+      const calendar=book.closest('.im-flipcal');
+      const style=document.createElement('style');
+      style.textContent=`
+        [data-flipcal-book][data-static-flip-ready="true"]{position:absolute!important;inset:0!important;perspective:1600px}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page]{display:none!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;right:auto!important;bottom:auto!important;transform:none!important;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .48s cubic-bezier(.2,.7,.2,1)!important}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-active{display:block!important;opacity:1;pointer-events:auto;transform:rotateY(0)!important;z-index:5}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-out{display:block!important;opacity:0;pointer-events:none;transform:rotateY(-12deg)!important;z-index:4}
+        [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__face{inset:0!important}
+        [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__corner{display:inline-flex!important}
+        [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__page--cover{cursor:pointer}
+        [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__page:not(.im-flipcal__page--cover) .im-flipcal__content{max-width:90%;width:min(260px,90%)}
+      `;
+      document.head.appendChild(style);
+      book.setAttribute('data-static-flip-ready','true');
+      let current=0;
+      const show=(next)=>{
+        next=Math.max(0,Math.min(pages.length-1,next));
+        const old=pages[current];
+        pages.forEach((page,i)=>{
+          page.classList.toggle('static-flip-active',i===next);
+          page.classList.remove('static-flip-out');
+          page.style.zIndex=i===next?'5':'1';
+        });
+        current=next;
+        if(calendar){calendar.classList.toggle('is-front',current===0);calendar.classList.toggle('is-open',current>0);calendar.classList.toggle('is-single',true);}
+        pages[current].querySelectorAll('[data-flipcal-go]').forEach(btn=>{
+          const dir=Number(btn.getAttribute('data-flipcal-go'));
+          btn.textContent=dir<0?(current===1?'‹ Close':'‹ Previous'):(current===pages.length-1?'End ›':'Next ›');
+          btn.setAttribute('data-flipcal-go',String(dir));
+        });
+      };
+      pages.forEach((page,i)=>{
+        page.addEventListener('click',e=>{
+          if(i===0&&current===0&&!e.target.closest('a,button'))show(1);
+        });
+      });
+      book.querySelectorAll('[data-flipcal-go]').forEach(btn=>btn.addEventListener('click',e=>{
+        e.preventDefault();e.stopPropagation();const dir=Number(btn.getAttribute('data-flipcal-go'));
+        if(dir<0&&current===1)show(0);else show(current+dir);
+      }));
+      show(0);
+    });
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
     if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('static-animate-in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});els.forEach(el=>io.observe(el))}else els.forEach(el=>el.classList.add('static-animate-in'));
