@@ -12093,6 +12093,11 @@ window.addEventListener('DOMContentLoaded',function(){
         body .im-couple-profile__photo-wrap {
             position: relative;
             overflow: visible;
+            isolation: isolate;
+        }
+        /* Photo sits behind; ornate frame overlay stays on top */
+        body .im-couple-profile__photo-glow {
+            z-index: 0;
         }
         body .im-couple-profile__photo-frame {
             position: absolute;
@@ -12102,7 +12107,11 @@ window.addEventListener('DOMContentLoaded',function(){
             margin: 0;
             border-radius: 50%;
             overflow: hidden;
-            z-index: 2;
+            z-index: 1;
+        }
+        body .im-couple-profile__photo-wrap::before {
+            z-index: 3 !important;
+            pointer-events: none;
         }
         body .im-couple-profile__photo {
             width: 100%;
