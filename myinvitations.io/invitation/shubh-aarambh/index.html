@@ -9889,6 +9889,18 @@ window.addEventListener('DOMContentLoaded',function(){
 [data-animate="zoom-loop"].static-animate-in{transform:scale(1);opacity:1}
 @media(prefers-reduced-motion:reduce){[data-animate].static-animate-ready{transition:none;opacity:1;transform:none;clip-path:none}}
 </style>
+<style id="scroll-linked-roll-position">
+.im-wording__wrap[data-animate="unroll"]{--static-scroll-progress:0}
+.im-wording__wrap.is-armed .im-wording__paper{
+ clip-path:inset(0 0 calc(100% - (var(--im-scroll-closed) + (var(--im-scroll-open) - var(--im-scroll-closed))*var(--static-scroll-progress)) + var(--im-scroll-roller-h)) 0)!important;
+}
+.im-wording__wrap.is-armed .im-wording__roller{
+ bottom:calc(100% - (var(--im-scroll-closed) + (var(--im-scroll-open) - var(--im-scroll-closed))*var(--static-scroll-progress)))!important;
+ visibility:visible!important;
+}
+.im-wording__wrap.is-armed .im-wording__inner{opacity:var(--static-scroll-progress)!important;transition:none!important}
+.im-wording__wrap.is-armed.is-settled .im-wording__roller{visibility:visible!important}
+</style>
 </head>
 
 <body class="wp-singular invitation_mgmt-template-default single single-invitation_mgmt postid-96034 wp-custom-logo wp-embed-responsive wp-theme-my-invitations theme-my-invitations invitation-website woocommerce-no-js woocommerce-active ipw-dynamic-mode">
