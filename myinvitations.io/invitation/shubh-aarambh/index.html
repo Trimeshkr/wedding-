@@ -986,6 +986,22 @@
             width: 100%
         }
 
+        /* Portrait framing adjustments for the uploaded couple photos */
+        .im-couple-profile__photo[alt="अरुण कुमार सिंह"] {
+            object-position: 50% 24%;
+            transform: scale(1.04);
+        }
+        .im-couple-profile__photo[alt="अनामिका सिंह"] {
+            object-position: 50% 27%;
+            transform: scale(1.06);
+        }
+        @media (max-width: 767px) {
+            .im-couple-profile__photo-wrap {
+                width: min(192px, 58vw);
+                height: min(192px, 58vw);
+            }
+        }
+
         .im-couple-profile__label {
             letter-spacing: .4em;
             margin: 28px 0 0;
