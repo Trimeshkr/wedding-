@@ -57,7 +57,7 @@
       const onPointerDown=e=>{
         if(progress>=1||triggered)return;
         dragging=true;dragStartY=e.clientY;dragStartProgress=progress;
-        wrap.setPointerCapture?.(e.pointerId);
+        roller.setPointerCapture?.(e.pointerId);
         e.preventDefault();
       };
       const onPointerMove=e=>{
