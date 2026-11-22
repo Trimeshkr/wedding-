@@ -1,33 +1,42 @@
 /* Static scroll animation restoration for the exported invitation page. */
 (() => {
+  const clamp = (n, min = 0, max = 1) => Math.min(max, Math.max(min, n));
   const init = () => {
-    // The scroll invitation should remain closed until the guest reaches it.
     const scrollWrap = document.querySelector('.im-wording__wrap[data-animate="unroll"]');
     if (scrollWrap) {
-      scrollWrap.classList.add('is-armed');
+      const scrollArea = scrollWrap.closest('.im-wording__scroll') || scrollWrap;
       const paper = scrollWrap.querySelector('.im-wording__paper');
+      const roller = scrollWrap.querySelector('.im-wording__roller');
       const inner = scrollWrap.querySelector('.im-wording__inner');
-      const settle = () => {
-        if (scrollWrap.classList.contains('is-open')) {
-          window.setTimeout(() => scrollWrap.classList.add('is-settled'), 2100);
-        }
+      scrollWrap.classList.add('is-armed');
+      scrollWrap.classList.remove('is-open','is-settled');
+
+      // Scrub the scroll itself: scroll down opens the scroll, scroll up reverses it.
+      // Progress is mapped across the scroll element passing through the viewport.
+      const updateUnroll = () => {
+        const rect = scrollArea.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const totalTravel = vh + rect.height;
+        const progress = clamp((vh - rect.top) / Math.max(1, totalTravel));
+        scrollWrap.style.setProperty('--static-scroll-progress', progress.toFixed(4));
+        if (paper) paper.style.clipPath = `inset(0 0 ${(1-progress)*100}% 0)`;
+        if (roller) roller.style.bottom = `${progress*100}%`;
+        if (inner) inner.style.opacity = progress.toFixed(3);
+        scrollWrap.classList.toggle('is-open', progress > 0.015);
+        scrollWrap.classList.toggle('is-settled', progress >= 0.995);
       };
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              scrollWrap.classList.add('is-open');
-              settle();
-              observer.unobserve(scrollWrap);
-            }
-          });
-        observer.observe(scrollWrap);
-      } else {
-        scrollWrap.classList.add('is-open','is-settled');
-      }
+      let ticking = false;
+      const requestUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { updateUnroll(); ticking = false; });
+      };
+      window.addEventListener('scroll', requestUpdate, {passive:true});
+      window.addEventListener('resize', requestUpdate, {passive:true});
+      updateUnroll();
     }
 
-    // Restore reveal-on-scroll for elements tagged by the original invitation plugin.
+    // Reveal elements marked by the original invitation animation metadata.
     const elements = [...document.querySelectorAll('[data-animate]')].filter(el => el !== scrollWrap && el.dataset.animate !== 'unroll');
     elements.forEach(el => {
       el.classList.add('static-animate-ready');
@@ -35,32 +44,27 @@
       const duration = Number(el.dataset.animateDuration || .8);
       el.style.transitionDelay = delay + 's';
       el.style.transitionDuration = duration + 's';
-      if (el.dataset.animate === 'zoom-loop') {
-        const scale = Number(el.dataset.animateScale || 1.1);
-        el.style.setProperty('--static-zoom-scale', scale);
-      }
     });
-    if (!('IntersectionObserver' in window)) {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('static-animate-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold: .12, rootMargin: '0px 0px -8% 0px'});
+      elements.forEach(el => observer.observe(el));
+    } else {
       elements.forEach(el => el.classList.add('static-animate-in'));
-      return;
     }
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('static-animate-in');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {threshold: .12, rootMargin: '0px 0px -8% 0px'});
-    elements.forEach(el => revealObserver.observe(el));
 
-    // Buttons that request the next section should work in a static export too.
     document.querySelectorAll('[data-scroll-next-section]').forEach(button => {
       button.addEventListener('click', () => {
         const section = button.closest('section')?.nextElementSibling;
         section?.scrollIntoView({behavior:'smooth',block:'start'});
       });
-    });
+    }
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
   else init();
