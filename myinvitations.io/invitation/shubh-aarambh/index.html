@@ -9885,6 +9885,9 @@ window.addEventListener('DOMContentLoaded',function(){
 [data-animate].static-animate-ready.static-animate-in{opacity:1;transform:none}
 [data-animate="clip-circle"].static-animate-ready{clip-path:circle(0 at 50% 50%);transition:clip-path .9s ease,opacity .8s ease}
 [data-animate="clip-circle"].static-animate-in{clip-path:circle(75% at 50% 50%)}
+/* Ensure embedded couple photos remain visible on static GitHub Pages */
+.im-couple-profile__photo-wrap,.im-couple-profile__photo-frame{opacity:1!important;visibility:visible!important;clip-path:none!important;}
+.im-couple-profile__photo{opacity:1!important;visibility:visible!important;display:block!important;clip-path:none!important;position:relative!important;z-index:2!important;}
 [data-animate="zoom-loop"].static-animate-ready{transform:scale(.8);opacity:0}
 [data-animate="zoom-loop"].static-animate-in{transform:scale(1);opacity:1}
 @media(prefers-reduced-motion:reduce){[data-animate].static-animate-ready{transition:none;opacity:1;transform:none;clip-path:none}}
