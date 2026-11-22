@@ -81,7 +81,8 @@
     // If the media has a known duration, use it as a safety exit.
     video.addEventListener('loadedmetadata', () => {
       if (Number.isFinite(video.duration) && video.duration > 0) {
-        fallbackTimer = setTimeout(finish, (video.duration + 2) * 1000);
+        clearTimeout(fallbackTimer);
+        fallbackTimer = setTimeout(finish, (video.duration + 3) * 1000);
       }
     }, { once: true });
 
