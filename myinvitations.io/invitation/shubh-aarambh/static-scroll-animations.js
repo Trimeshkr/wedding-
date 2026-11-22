@@ -23,7 +23,8 @@
         // Animate the roller's bottom offset. The paper reveal boundary is then
         // derived from the roller's real top edge, so both remain geometrically
         // locked together throughout the animation.
-        const startOffset=wrapH-closed;\n        const bottomOffset=startOffset+(open-startOffset)*progress;
+        const startOffset=wrapH-closed;
+        const bottomOffset=startOffset+(open-startOffset)*progress;
         const rollerBottomY=wrapH-bottomOffset;
         const rollerTopY=rollerBottomY-rollerH;
         const revealEdge=clamp(rollerTopY-paperRect.top+wrapRect.top,0,paperH);
