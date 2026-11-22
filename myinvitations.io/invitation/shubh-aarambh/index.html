@@ -12126,6 +12126,24 @@ window.addEventListener('DOMContentLoaded',function(){
                 font-size: clamp(30px, 8vw, 44px) !important;
             }
         }
+
+        /* Hard fallback: render the artwork on the hero itself, independent of the inner background layer. */
+        @media (max-width: 767px) {
+            body .im-hero-palace {
+                background-image: url("https://trimeshkr.github.io/wedding-/myinvitations.io/wp-content/uploads/2026/10/Shubh-Aarambh-Desktop.webp") !important;
+                background-position: center center !important;
+                background-size: cover !important;
+                background-repeat: no-repeat !important;
+            }
+            body .im-hero-palace__bg--has-mobile {
+                background-image: url("https://trimeshkr.github.io/wedding-/myinvitations.io/wp-content/uploads/2026/10/Shubh-Aarambh-Desktop.webp") !important;
+                z-index: 0 !important;
+            }
+            body .im-hero-palace__stage {
+                position: relative;
+                z-index: 2 !important;
+            }
+        }
     </style>
     <script>
         (function() {
