@@ -202,7 +202,7 @@
       update();
       grid._staticCountdownTimer=setInterval(update,1000);
     });
-    // Fallback flip-calendar interaction for static exports where the original
+    // Smooth 3D page-turn fallback for static exports where the original
     // page-flip library did not initialize (no .stf__item nodes are created).
     document.querySelectorAll('[data-flipcal-book]').forEach(book=>{
       const pages=[...book.querySelectorAll('[data-flipcal-page]')];
@@ -212,44 +212,67 @@
       const calendar=book.closest('.im-flipcal');
       const style=document.createElement('style');
       style.textContent=`
-        [data-flipcal-book][data-static-flip-ready="true"]{position:absolute!important;inset:0!important;perspective:1600px}
-        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page]{display:none!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;right:auto!important;bottom:auto!important;transform:none!important;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .48s cubic-bezier(.2,.7,.2,1)!important}
-        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-active{display:block!important;opacity:1;pointer-events:auto;transform:rotateY(0)!important;z-index:5}
-        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-out{display:block!important;opacity:0;pointer-events:none;transform:rotateY(-12deg)!important;z-index:4}
+        [data-flipcal-book][data-static-flip-ready="true"]{position:absolute!important;inset:0!important;perspective:1800px;transform-style:preserve-3d}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page]{display:none!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;right:auto!important;bottom:auto!important;opacity:0;pointer-events:none;transform:rotateY(0deg);transform-origin:left center;backface-visibility:hidden;transform-style:preserve-3d;transition:transform .78s cubic-bezier(.22,.61,.36,1),opacity .18s ease!important;will-change:transform;overflow:hidden}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-active{display:block!important;opacity:1;pointer-events:auto;transform:rotateY(0deg)!important;z-index:5}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-turning{display:block!important;opacity:1;pointer-events:none;z-index:8}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-forward{transform:rotateY(-180deg)!important}
+        [data-flipcal-book][data-static-flip-ready="true"]>[data-flipcal-page].static-flip-backward{transform:rotateY(180deg)!important;transform-origin:right center!important}
         [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__face{inset:0!important}
         [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__corner{display:inline-flex!important}
         [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__page--cover{cursor:pointer}
         [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__page:not(.im-flipcal__page--cover) .im-flipcal__content{max-width:90%;width:min(260px,90%)}
+        [data-flipcal-book][data-static-flip-ready="true"] .im-flipcal__corner{z-index:12}
       `;
       document.head.appendChild(style);
       book.setAttribute('data-static-flip-ready','true');
-      let current=0;
-      const show=(next)=>{
+      let current=0,busy=false;
+      const updateButtons=()=>{
+        pages.forEach(page=>page.querySelectorAll('[data-flipcal-go]').forEach(btn=>{
+          const dir=Number(btn.getAttribute('data-flipcal-go'));
+          btn.innerHTML=dir<0?(current===1?'&lsaquo; Back to Cover':'&lsaquo; Previous'):(current===pages.length-1?'Finish &rsaquo;':'Next &rsaquo;');
+        }));
+      };
+      const show=(next,direction=1)=>{
         next=Math.max(0,Math.min(pages.length-1,next));
-        const old=pages[current];
-        pages.forEach((page,i)=>{
-          page.classList.toggle('static-flip-active',i===next);
-          page.classList.remove('static-flip-out');
-          page.style.zIndex=i===next?'5':'1';
-        });
+        if(next===current||busy)return;
+        busy=true;
+        const old=pages[current],incoming=pages[next];
+        pages.forEach(page=>{page.classList.remove('static-flip-active','static-flip-turning','static-flip-forward','static-flip-backward');page.style.zIndex='1';});
+        old.classList.add('static-flip-turning',direction>0?'static-flip-forward':'static-flip-backward');
+        old.style.zIndex='8';
+        incoming.classList.add('static-flip-active');
+        incoming.style.zIndex='5';
+        incoming.style.transform=direction>0?'rotateY(180deg)':'rotateY(-180deg)';
+        incoming.style.opacity='1';
+        incoming.style.pointerEvents='auto';
         current=next;
         if(calendar){calendar.classList.toggle('is-front',current===0);calendar.classList.toggle('is-open',current>0);calendar.classList.toggle('is-single',true);}
-        pages[current].querySelectorAll('[data-flipcal-go]').forEach(btn=>{
-          const dir=Number(btn.getAttribute('data-flipcal-go'));
-          btn.textContent=dir<0?(current===1?'‹ Close':'‹ Previous'):(current===pages.length-1?'End ›':'Next ›');
-          btn.setAttribute('data-flipcal-go',String(dir));
-        });
+        updateButtons();
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          incoming.style.transform='rotateY(0deg)';
+          old.classList.remove('static-flip-turning');
+        }));
+        window.setTimeout(()=>{
+          old.classList.remove('static-flip-forward','static-flip-backward','static-flip-turning');
+          old.style.zIndex='1';old.style.opacity='0';old.style.pointerEvents='none';
+          old.style.transform='rotateY(0deg)';
+          pages.forEach((page,i)=>{if(i!==current){page.classList.remove('static-flip-active');page.style.opacity='0';page.style.pointerEvents='none';page.style.zIndex='1';}});
+          busy=false;
+        },820);
       };
       pages.forEach((page,i)=>{
         page.addEventListener('click',e=>{
-          if(i===0&&current===0&&!e.target.closest('a,button'))show(1);
+          if(i===0&&current===0&&!e.target.closest('a,button'))show(1,1);
         });
       });
       book.querySelectorAll('[data-flipcal-go]').forEach(btn=>btn.addEventListener('click',e=>{
-        e.preventDefault();e.stopPropagation();const dir=Number(btn.getAttribute('data-flipcal-go'));
-        if(dir<0&&current===1)show(0);else show(current+dir);
+        e.preventDefault();e.stopPropagation();
+        const dir=Number(btn.getAttribute('data-flipcal-go'));
+        show(current+dir,dir);
       }));
-      show(0);
+      pages.forEach((page,i)=>{page.classList.toggle('static-flip-active',i===0);page.style.opacity=i===0?'1':'0';page.style.pointerEvents=i===0?'auto':'none';page.style.zIndex=i===0?'5':'1';});
+      updateButtons();
     });
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
