@@ -202,18 +202,6 @@
       update();
       grid._staticCountdownTimer=setInterval(update,1000);
     });
-    /* Hide the standalone prev/next controls shown below the flipbook.
-   Page turns remain available by interacting with the book itself. */
-    const hideFlipbookControls=document.createElement('style');
-    hideFlipbookControls.textContent=`
-      /* Actual round navigation buttons are outside the stage in this template. */
-      .im-flipcal .im-flipcal__nav,
-      .im-flipcal .im-flipcal__nav--prev,
-      .im-flipcal .im-flipcal__nav--next,
-      .im-flipcal__stage>.im-flipcal__controls,
-      .im-flipcal__stage>.im-flipcal__navigation {display:none!important}
-    `;
-    document.head.appendChild(hideFlipbookControls);
     // Fallback flip-calendar interaction for static exports where the original
     // page-flip library did not initialize (no .stf__item nodes are created).
     document.querySelectorAll('[data-flipcal-book]').forEach(book=>{
