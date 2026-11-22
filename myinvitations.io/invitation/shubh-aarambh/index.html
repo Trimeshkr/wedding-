@@ -9877,6 +9877,18 @@ window.addEventListener('DOMContentLoaded',function(){
 .static-intro-controls{position:absolute;z-index:100001;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center}
 .static-intro-controls button{border:1px solid rgba(255,255,255,.75);border-radius:999px;padding:12px 18px;background:rgba(22,15,12,.68);color:#fff;font:600 13px system-ui;cursor:pointer}
 </style>
+
+<style id="static-scroll-animation-fallback">
+/* Static GitHub Pages scroll animation fallback */
+[data-animate]:not(.static-animate-ready){opacity:1}
+[data-animate].static-animate-ready{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+[data-animate].static-animate-ready.static-animate-in{opacity:1;transform:none}
+[data-animate="clip-circle"].static-animate-ready{clip-path:circle(0 at 50% 50%);transition:clip-path .9s ease,opacity .8s ease}
+[data-animate="clip-circle"].static-animate-in{clip-path:circle(75% at 50% 50%)}
+[data-animate="zoom-loop"].static-animate-ready{transform:scale(.8);opacity:0}
+[data-animate="zoom-loop"].static-animate-in{transform:scale(1);opacity:1}
+@media(prefers-reduced-motion:reduce){[data-animate].static-animate-ready{transition:none;opacity:1;transform:none;clip-path:none}}
+</style>
 </head>
 
 <body class="wp-singular invitation_mgmt-template-default single single-invitation_mgmt postid-96034 wp-custom-logo wp-embed-responsive wp-theme-my-invitations theme-my-invitations invitation-website woocommerce-no-js woocommerce-active ipw-dynamic-mode">
@@ -12331,7 +12343,8 @@ window.addEventListener('DOMContentLoaded',function(){
     <script data-wp-strategy="defer" defer id="invitation-management-event-flip-calendar-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/event-flip-calendar.js?ver=1792696305"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-door-reveal-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/door-reveal.js?ver=1786448749"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-music-toggle-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/music-toggle.js?ver=1793558679"></script>
-    <script src="./static-cover-video.js"></script>
+    <script src="./static-scroll-animations.js"></script>
+<script src="./static-cover-video.js"></script>
     <script id="wc-facebook-signals-js-extra">
         var wc_facebook_signals_params = {
             "ajax_url": "https://myinvitations.io/wp-admin/admin-ajax.php",
