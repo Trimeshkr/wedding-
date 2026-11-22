@@ -233,7 +233,17 @@
           page.style.zIndex=i===next?'5':'1';
         });
         current=next;
-        if(calendar){calendar.classList.toggle('is-front',current===0);calendar.classList.toggle('is-open',current>0);calendar.classList.toggle('is-single',true);}
+        if(calendar){
+          calendar.classList.toggle('is-front',current===0);
+          calendar.classList.toggle('is-open',current>0);
+          calendar.classList.toggle('is-single',true);
+          const counter=calendar.querySelector('[data-flipcal-counter]');
+          if(counter)counter.textContent=(current+1).toString().padStart(2,'0')+' / '+pages.length.toString().padStart(2,'0');
+          const prev=calendar.querySelector('[data-flipcal-prev]');
+          const nextBtn=calendar.querySelector('[data-flipcal-next]');
+          if(prev)prev.disabled=current===0;
+          if(nextBtn)nextBtn.disabled=current===pages.length-1;
+        }
         pages[current].querySelectorAll('[data-flipcal-go]').forEach(btn=>{
           const dir=Number(btn.getAttribute('data-flipcal-go'));
           btn.textContent=dir<0?(current===1?'‹ Close':'‹ Previous'):(current===pages.length-1?'End ›':'Next ›');
@@ -249,6 +259,11 @@
         e.preventDefault();e.stopPropagation();const dir=Number(btn.getAttribute('data-flipcal-go'));
         if(dir<0&&current===1)show(0);else show(current+dir);
       }));
+      /* The round arrows live outside [data-flipcal-book], so bind them too. */
+      if(calendar){
+        calendar.querySelector('[data-flipcal-prev]')?.addEventListener('click',e=>{e.preventDefault();show(current-1);});
+        calendar.querySelector('[data-flipcal-next]')?.addEventListener('click',e=>{e.preventDefault();show(current+1);});
+      }
       show(0);
     });
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
