@@ -12099,6 +12099,33 @@ window.addEventListener('DOMContentLoaded',function(){
                 object-position: center 35%;
             }
         }
+
+        /* Responsive hero fix: the mobile background asset is missing in this repo.
+           Reuse the existing desktop artwork on narrow screens. */
+        @media (max-width: 767px) {
+            body .im-hero-palace {
+                min-height: 100svh !important;
+                height: 100svh !important;
+                overflow: hidden;
+            }
+            body .im-hero-palace__bg--has-mobile {
+                background-image: url("../../wp-content/uploads/2026/10/Shubh-Aarambh-Desktop.webp") !important;
+                background-position: center center !important;
+                background-size: cover !important;
+            }
+            body .im-hero-palace__scroll {
+                bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+            }
+        }
+        @media (max-width: 480px) {
+            body .im-hero-palace__details {
+                top: 23% !important;
+                width: 94% !important;
+            }
+            body .im-hero-palace__name {
+                font-size: clamp(30px, 8vw, 44px) !important;
+            }
+        }
     </style>
     <script>
         (function() {
