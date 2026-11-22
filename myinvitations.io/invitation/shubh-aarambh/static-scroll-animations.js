@@ -101,6 +101,79 @@
       handle.addEventListener('pointercancel',onPointerUp);
       window.addEventListener('resize',()=>{if(!triggered&&!dragging){render(progress);positionHandle()}},{passive:true});
     }
+    // Restore the actual Save-the-Date door-card pull interaction.
+    // This is the visible PULL seal in the screenshot (data-door-pull-handle),
+    // not the unrelated framed parchment unroll component.
+    document.querySelectorAll('.im-door-countdown .im-door-card__card').forEach(card=>{
+      const handle=card.querySelector('[data-door-pull-handle]');
+      const pull=card.querySelector('.im-door-card__pull');
+      const string=card.querySelector('.im-door-card__pull-string');
+      if(!handle||card.dataset.staticDoorPullReady)return;
+      card.dataset.staticDoorPullReady='true';
+      let startY=0,dragging=false,pulled=0;
+      const open=()=>{
+        card.classList.add('is-open');
+        card.classList.remove('is-pulling');
+        handle.style.removeProperty('transform');
+        if(string)string.style.removeProperty('height');
+        handle.setAttribute('aria-valuenow','100');
+      };
+      const reset=()=>{
+        card.classList.remove('is-pulling');
+        handle.style.removeProperty('transform');
+        if(string)string.style.removeProperty('height');
+      };
+      const down=e=>{
+        if(card.classList.contains('is-open'))return;
+        dragging=true;startY=e.clientY;pulled=0;
+        handle.setPointerCapture?.(e.pointerId);
+        card.classList.add('is-pulling');
+        handle.style.transition='none';
+        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      };
+      const move=e=>{
+        if(!dragging)return;
+        pulled=Math.max(0,e.clientY-startY);
+        const maxPull=Math.min(card.getBoundingClientRect().height*.55,220);
+        const amount=Math.min(pulled,maxPull);
+        handle.style.transform=`translateY(${amount}px)`;
+        if(string)string.style.height=`calc(56px + ${amount}px)`;
+        card.style.setProperty('--im-pull-offset',amount+'px');
+        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      };
+      const up=e=>{
+        if(!dragging)return;
+        dragging=false;
+        const threshold=Math.max(48,card.getBoundingClientRect().height*.18);
+        handle.style.transition='';
+        if(pulled>=threshold){
+          open();
+        }else{
+          reset();
+        }
+        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      };
+      handle.style.touchAction='none';
+      handle.style.cursor='grab';
+      handle.addEventListener('pointerdown',down,true);
+      handle.addEventListener('pointermove',move,true);
+      handle.addEventListener('pointerup',up,true);
+      handle.addEventListener('pointercancel',up,true);
+      handle.addEventListener('click',e=>{
+        if(card.classList.contains('is-open'))return;
+        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      },true);
+      handle.addEventListener('keydown',e=>{
+        if(card.classList.contains('is-open'))return;
+        if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){
+          e.preventDefault();open();
+        }
+      });
+      handle.setAttribute('aria-valuemin','0');
+      handle.setAttribute('aria-valuemax','100');
+      handle.setAttribute('aria-valuenow','0');
+      handle.setAttribute('role','slider');
+    });
     const els=[...document.querySelectorAll('[data-animate]')].filter(el=>el!==wrap&&el.dataset.animate!=='unroll');
     els.forEach(el=>{el.classList.add('static-animate-ready');el.style.transitionDelay=Number(el.dataset.animateDelay||0)+'s';el.style.transitionDuration=Number(el.dataset.animateDuration||.8)+'s'});
     if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('static-animate-in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});els.forEach(el=>io.observe(el))}else els.forEach(el=>el.classList.add('static-animate-in'));
