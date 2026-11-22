@@ -17,19 +17,24 @@
       const render=(value)=>{
         progress=clamp(value);
         const closed=pxVar(wrap,'--im-scroll-closed'),open=pxVar(wrap,'--im-scroll-open');
-        const paperH=paper.getBoundingClientRect().height,wrapH=wrap.getBoundingClientRect().height;
-        if(!paperH||!wrapH)return;
-        // Explicit pixel geometry: reveal paper top-to-bottom while the roller
-        // travels from its closed position to the bottom of the invitation.
-        const rollerBottom=(wrapH-closed)+(open-(wrapH-closed))*progress;
-        const clipBottom=paperH*(1-progress);
+        const wrapRect=wrap.getBoundingClientRect(),paperRect=paper.getBoundingClientRect(),rollerRect=roller.getBoundingClientRect();
+        const paperH=paperRect.height,wrapH=wrapRect.height,rollerH=rollerRect.height;
+        if(!paperH||!wrapH||!rollerH)return;
+        // Animate the roller's bottom offset. The paper reveal boundary is then
+        // derived from the roller's real top edge, so both remain geometrically
+        // locked together throughout the animation.
+        const startOffset=wrapH-closed;\n        const bottomOffset=startOffset+(open-startOffset)*progress;
+        const rollerBottomY=wrapH-bottomOffset;
+        const rollerTopY=rollerBottomY-rollerH;
+        const revealEdge=clamp(rollerTopY-paperRect.top+wrapRect.top,0,paperH);
+        const clipBottom=paperH-revealEdge;
         wrap.style.setProperty('--static-scroll-progress',progress.toFixed(4));
         paper.style.setProperty('clip-path',`inset(0 0 ${clipBottom}px 0)`,'important');
         paper.style.setProperty('transition','none','important');
-        roller.style.setProperty('bottom',`${rollerBottom}px`,'important');
+        roller.style.setProperty('bottom',`${bottomOffset}px`,'important');
         roller.style.setProperty('transition','none','important');
         roller.style.setProperty('visibility','visible','important');
-        if(inner){inner.style.setProperty('opacity',String(progress),'important');inner.style.setProperty('transition','none','important')}
+        if(inner){inner.style.setProperty('opacity',String(clamp(revealEdge/Math.max(1,paperH*.18))),'important');inner.style.setProperty('transition','none','important')}
         wrap.classList.toggle('is-open',progress>.005);
         if(progress>=1)wrap.classList.add('is-settled');
       };
