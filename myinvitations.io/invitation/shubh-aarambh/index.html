@@ -9855,6 +9855,15 @@ window.addEventListener('DOMContentLoaded',function(){
   });
 });
 </script>
+<style id="static-cover-video-style">
+.im-cover-video{position:fixed!important;inset:0!important;z-index:99999!important;display:flex;align-items:center;justify-content:center;background:#000!important;opacity:1;transition:opacity 1.2s ease,visibility 1.2s ease}
+.im-cover-video.is-closing{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.im-cover-video__video{width:100%;height:100%;object-fit:cover;background:#000}
+.im-cover-video__poster-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:opacity .4s}
+.im-cover-video.is-video-ready .im-cover-video__poster-overlay{opacity:0}
+.static-cover-video-control{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:5;border:1px solid rgba(255,255,255,.65);border-radius:999px;padding:12px 20px;background:rgba(25,15,12,.62);color:#fff;font:500 14px system-ui;backdrop-filter:blur(8px);cursor:pointer}
+.static-cover-video-control[hidden]{display:none!important}
+</style>
 </head>
 
 <body class="wp-singular invitation_mgmt-template-default single single-invitation_mgmt postid-96034 wp-custom-logo wp-embed-responsive wp-theme-my-invitations theme-my-invitations invitation-website woocommerce-no-js woocommerce-active ipw-dynamic-mode">
@@ -9960,7 +9969,7 @@ window.addEventListener('DOMContentLoaded',function(){
 
 
         <div style="position:fixed;z-index:99999;background-color:#000000" class="im-cover-video ticss-6cc150c2 wp-block-invitation-management-cover-cover-with-video" data-duration="10">
-            <video class="im-cover-video__video" src="../../wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="../../wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline disablepictureinpicture preload="auto"></video>
+            <video class="im-cover-video__video" src="../../wp-content/uploads/2026/10/Shubh-Aarambh.mp4" poster="../../wp-content/uploads/2026/10/cover-poster-2.jpg" playsinline muted autoplay preload="auto"></video>
             <img decoding="async" class="im-cover-video__poster-overlay" src="../../wp-content/uploads/2026/10/cover-poster-2.jpg" alt="">
 
         </div>
@@ -12309,7 +12318,7 @@ window.addEventListener('DOMContentLoaded',function(){
     <script data-wp-strategy="defer" defer id="invitation-management-event-flip-calendar-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/event-flip-calendar.js?ver=1792696305"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-door-reveal-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/door-reveal.js?ver=1786448749"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-music-toggle-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/music-toggle.js?ver=1793558679"></script>
-    <script data-wp-strategy="defer" defer id="invitation-management-cover-video-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/cover-video.js?ver=1793558679"></script>
+    <script src="./static-cover-video.js"></script>
     <script id="wc-facebook-signals-js-extra">
         var wc_facebook_signals_params = {
             "ajax_url": "https://myinvitations.io/wp-admin/admin-ajax.php",
