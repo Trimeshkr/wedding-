@@ -79,6 +79,7 @@
       };
       // The user must physically pull the scroll/roller down to reveal it.
       render(0);
+      roller.style.setProperty('pointer-events','auto','important');
       roller.style.setProperty('cursor','grab','important');
       roller.style.setProperty('touch-action','none','important');
       roller.addEventListener('pointerdown',onPointerDown);
