@@ -11005,6 +11005,54 @@ window.addEventListener('DOMContentLoaded',function(){
             padding-bottom: 51px;
         }
 
+        /* Map section styled like the reference invitation */
+        body .im-guest-rsvp--map-only {
+            position: relative;
+            isolation: isolate;
+            background-color: #5b101c !important;
+            background-image: url(../../wp-content/uploads/2026/10/red-bg.webp) !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            padding: 44px 14px 88px !important;
+            overflow: visible !important;
+        }
+        body .im-guest-rsvp--map-only .im-guest-rsvp__grid {
+            margin-top: 0 !important;
+            padding: 0 !important;
+            position: relative;
+            z-index: 1;
+        }
+        body .im-guest-rsvp--map-only .im-guest-rsvp__grid:before {
+            display: none !important;
+        }
+        body .im-guest-rsvp--map-only .im-guest-rsvp__map-card {
+            width: min(100%, 440px);
+            margin: 0 auto !important;
+            border: 4px solid #fff8ed !important;
+            border-radius: 28px !important;
+            overflow: hidden !important;
+            box-shadow: 0 18px 40px rgba(35, 0, 5, .32) !important;
+        }
+        body .im-guest-rsvp--map-only:after {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            pointer-events: none;
+            left: -5%;
+            bottom: -1px;
+            width: 110%;
+            height: 64px;
+            background-image: url(../../wp-content/uploads/2026/10/section_divider-5eb986.svg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        @media (max-width: 600px) {
+            body .im-guest-rsvp--map-only { padding: 28px 12px 76px !important; }
+            body .im-guest-rsvp--map-only .im-guest-rsvp__map-card { border-width: 3px !important; border-radius: 24px !important; }
+            body .im-guest-rsvp--map-only:after { height: 48px; }
+        }
+
         body .im-guest-rsvp .im-guest-rsvp__info-card,
         body .im-guest-rsvp .im-guest-rsvp__map-card {
             box-shadow: 0 24px 60px -24px rgba(122, 42, 53, .35);
