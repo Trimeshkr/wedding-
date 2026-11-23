@@ -5,7 +5,8 @@
 
   const audio = new Audio('./assets/music/ishq-hai.mp3');
   audio.loop = true;
-  audio.preload = 'none';
+  audio.preload = 'auto';
+  audio.load();
   audio.volume = 0;
 
   const btn = document.createElement('button');
