@@ -98,6 +98,14 @@
         }else animateTo(0,450);
       };
       render(0);positionHandle();
+      // Hero Scroll button should automatically open the framed invitation scroll.
+      const heroScrollButton=document.querySelector('.im-hero-palace__scroll[data-scroll-next-section]');
+      heroScrollButton?.addEventListener('click',e=>{
+        if(triggered)return;
+        triggered=true;
+        animateTo(1,900);
+        setTimeout(()=>section.scrollIntoView({behavior:'smooth',block:'start'}),120);
+      });
       handle.addEventListener('pointerdown',onPointerDown);
       handle.addEventListener('pointermove',onPointerMove);
       handle.addEventListener('pointerup',onPointerUp);
