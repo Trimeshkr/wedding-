@@ -9299,6 +9299,12 @@ window.addEventListener('DOMContentLoaded',function(){
         // to a real 100% once DOMContentLoaded actually fires, so the number
         // never lies about completion even though the steps in between are an
         // approximation. Same easing shape as most upload/loading progress UIs.
+        // Failsafe: if any upstream script blocks DOMContentLoaded, never leave the invitation covered.
+        window.setTimeout(function(){
+            var stuckLoader=document.getElementById('im-preview-loader');
+            if(stuckLoader){stuckLoader.classList.add('is-hidden');window.setTimeout(function(){stuckLoader.remove();},400);}
+        },8000);
+
         (function() {
             var percentEl = document.getElementById('im-preview-loader-percent');
             var ringEl = document.getElementById('im-preview-loader-ring');
@@ -9823,7 +9829,7 @@ window.addEventListener('DOMContentLoaded',function(){
         
     </main>
 
-    <script type="speculationrules">
+    <script type="application/json" id="disabled-speculationrules">
         {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/my-invitations/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch,
         .no-prefetch a"}}]},"eagerness":"conservative"}]}
     </script>
