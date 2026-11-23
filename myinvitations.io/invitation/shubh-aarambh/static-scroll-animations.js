@@ -98,6 +98,23 @@
         }else animateTo(0,450);
       };
       render(0);positionHandle();
+      // Automatically unroll when the framed invitation enters the viewport.
+      // This replaces the need for visitors to drag the roller manually.
+      if('IntersectionObserver' in window){
+        const autoOpenObserver=new IntersectionObserver(entries=>{
+          entries.forEach(entry=>{
+            if(entry.isIntersecting&&!triggered&&progress<1){
+              triggered=true;
+              autoOpenObserver.disconnect();
+              animateTo(1,1250);
+            }
+          });
+        },{threshold:0.12,rootMargin:'0px 0px -5% 0px'});
+        autoOpenObserver.observe(wrap);
+      }else{
+        triggered=true;
+        animateTo(1,1250);
+      }
       // Hero Scroll button should automatically open the framed invitation scroll.
       const heroScrollButton=document.querySelector('.im-hero-palace__scroll[data-scroll-next-section]');
       heroScrollButton?.addEventListener('click',e=>{
