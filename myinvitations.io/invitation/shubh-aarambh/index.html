@@ -4152,6 +4152,23 @@
             }
         }
 
+        /* Pull handle is intentionally limited to the Reception Date reveal card */
+        .im-door-countdown .im-door-card__pull {
+            display: flex;
+        }
+        .im-door-countdown .im-door-card__pull-ring {
+            pointer-events: auto;
+            touch-action: none;
+            cursor: grab;
+        }
+        .im-door-countdown .im-door-card__pull-ring:active {
+            cursor: grabbing;
+        }
+        .im-door-countdown .im-door-card__card.is-open .im-door-card__pull {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /*# sourceURL=https://myinvitations.io/wp-content/plugins/invitation-management/build/save-the-date/scratch-with-door/style-index.css */
     </style>
     <style id="invitation-management-thankyou-basic-with-love-style-inline-css">
