@@ -59,7 +59,11 @@
       }, 1300);
     };
 
-    // Lock immediately on the initial envelope screen, before any tap.\n    lockPageScroll();\n\n    // Start overlay: preserve the expected tap interaction.
+    // Lock immediately on the initial envelope screen, before any tap.
+    lockPageScroll();
+    window.scrollTo(0, 0);
+    const forceTop = () => { if (envelopeScrollGuard && window.scrollY !== 0) window.scrollTo(0, 0); };
+    window.addEventListener('scroll', forceTop, {capture:true, passive:true});\n\n    // Start overlay: preserve the expected tap interaction.
     video.autoplay = false;
     video.muted = false;
     video.playsInline = true;
