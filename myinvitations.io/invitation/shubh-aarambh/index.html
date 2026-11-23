@@ -2910,6 +2910,17 @@
             opacity: 1
         }
 
+        /* Keep the celebration doves visible and flying across the invitation hero */
+        .im-hero-palace .im-hero-palace__birds--image {
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 3 !important;
+        }
+        .im-hero-palace .im-hero-palace__bird {
+            opacity: .9 !important;
+        }
+
+
         .im-hero-palace__bird {
             animation: im-palace-fly linear infinite;
             color: var(--im-palace-bird, #5a3a44);
