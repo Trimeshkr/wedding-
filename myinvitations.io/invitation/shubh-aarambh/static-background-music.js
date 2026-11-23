@@ -67,12 +67,14 @@
     setState(false);
   }
   // Do not start (even silently) during the intro. Playback begins only after the cover animation finishes.
-  // Start only after the cover has fully disappeared and the reveal animation is complete.
-  document.addEventListener('iw:cover-opened', () => {
-    unlocked = true;
-    if (userPaused) return;
-    audio.muted = false;
-    play();
+  // Start 0.2 seconds before the cover/reveal animation finishes (1.3s closing transition).
+  document.addEventListener('iw:cover-closing', () => {
+    setTimeout(() => {
+      unlocked = true;
+      if (userPaused) return;
+      audio.muted = false;
+      play();
+    }, 1100);
   }, { once: true });
   btn.addEventListener('click', () => {
     if (audio.paused) {
