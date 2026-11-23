@@ -45,11 +45,8 @@
   };
   const fadeIn = () => {
     clearInterval(fadeTimer);
-    audio.volume = 0;
-    fadeTimer = setInterval(() => {
-      audio.volume = Math.min(.72, audio.volume + .04);
-      if (audio.volume >= .72) clearInterval(fadeTimer);
-    }, 120);
+    audio.volume = .72;
+    audio.muted = false;
   };
   async function play() {
     try {
@@ -76,7 +73,8 @@
       setState(true);
     } catch (_) { /* fallback to playback after the cover opens */ }
   }, { once: true });
-  document.addEventListener('iw:cover-opened', () => {
+  // Start at the beginning of the cover-closing transition to compensate for the remaining visual reveal.
+  document.addEventListener('iw:cover-closing', () => {
     unlocked = true;
     if (userPaused) return;
     audio.muted = false;
