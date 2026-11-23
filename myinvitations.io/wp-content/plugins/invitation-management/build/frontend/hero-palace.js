@@ -8,9 +8,9 @@
                     document.dispatchEvent(new CustomEvent("iw:hint-scroll"))
                 }, 6e3)
             };
-        document.querySelector(".im-cover-gate, .im-cover-video, .im-cover-call") ? document.addEventListener("iw:cover-opened", o, {
+        document.querySelector(".im-cover-gate, .im-cover-video, .im-cover-call") ? (document.addEventListener("iw:cover-opened", o, {
                 once: !0
-            }) : o(), n || function(t) {
+            }), window.setTimeout(o, 2500)) : o(), n || function(t) {
                 const n = parseFloat(t.dataset.parallax || "0"),
                     o = window.matchMedia("(max-width: 767px)"),
                     i = Array.from(t.querySelectorAll("[data-depth]")).map(e => ({
