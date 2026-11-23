@@ -8,6 +8,12 @@
 
     let started = false, finished = false;
     let lockedScrollY = 0;
+    let envelopeScrollGuard = true;
+    const blockScrollInput = e => { if (envelopeScrollGuard) e.preventDefault(); };
+    const blockScrollKeys = e => { if (envelopeScrollGuard && ['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' ','Spacebar'].includes(e.key)) e.preventDefault(); };
+    window.addEventListener('wheel', blockScrollInput, {capture:true, passive:false});
+    window.addEventListener('touchmove', blockScrollInput, {capture:true, passive:false});
+    window.addEventListener('keydown', blockScrollKeys, {capture:true});
     const lockPageScroll = () => {
       if (document.body.dataset.invitationScrollLocked === '1') return;
       lockedScrollY = window.scrollY || window.pageYOffset || 0;
@@ -44,6 +50,10 @@
       setTimeout(() => {
         cover.style.display = 'none';
         // Unlock scrolling only after the envelope/cover closing animation is complete.
+        envelopeScrollGuard = false;
+        window.removeEventListener('wheel', blockScrollInput, true);
+        window.removeEventListener('touchmove', blockScrollInput, true);
+        window.removeEventListener('keydown', blockScrollKeys, true);
         document.dispatchEvent(new CustomEvent('iw:unlock-scroll'));
         document.dispatchEvent(new CustomEvent('iw:cover-opened'));
       }, 1300);
