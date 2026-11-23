@@ -9612,8 +9612,6 @@ window.addEventListener('DOMContentLoaded',function(){
                 <div class="im-door-card__wrap" data-animate="fade-up">
                     <div class="im-door-card__card" style="background-color:#fffdf8;border-color:#e7c9a9">
                         <div class="im-door-card__content">
-                            <p class="im-door-card__emoji">🎉</p>
-
                             <p class="im-door-card__reveal-label" style="font-size:12px;font-family:&#039;Cormorant Garamond&#039;, serif;font-weight:700;color:#ffffff">Reception</p>
 
                             <p class="im-door-card__date" style="font-size:40px;font-family:&#039;Quicksand&#039;, sans-serif;font-weight:600;color:#ffffff">Mon, 14 Dec 2026</p>
@@ -11258,6 +11256,60 @@ window.addEventListener('DOMContentLoaded',function(){
     <script data-wp-strategy="defer" defer id="invitation-management-event-flip-calendar-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/event-flip-calendar.js?ver=1792696305"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-door-reveal-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/door-reveal.js?ver=1786448749"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-music-toggle-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/music-toggle.js?ver=1793558679"></script>
+<script id="static-reception-canvas-celebration">
+(function(){
+  function initCelebration(){
+    document.querySelectorAll('section.im-door-countdown').forEach(function(section){
+      if(section.dataset.celebrationReady==='1') return;
+      section.dataset.celebrationReady='1';
+      var canvas=document.createElement('canvas');
+      canvas.className='im-reception-celebration-canvas';
+      canvas.setAttribute('aria-hidden','true');
+      canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;overflow:hidden;';
+      section.appendChild(canvas);
+      var ctx=canvas.getContext('2d'), particles=[], raf=0, active=false;
+      var palette=['#d9b45b','#f6e7bd','#b8860b','#8b1e3f','#e9c46a','#fff7e6','#d44b72','#7a1935'];
+      function resize(){var r=section.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.max(1,r.width*d);canvas.height=Math.max(1,r.height*d);ctx.setTransform(d,0,0,d,0,0);}
+      function burst(){
+        if(active) return;
+        active=true; resize();
+        var w=section.clientWidth,h=section.clientHeight;
+        // A dense, physical-looking shower of paper strips and small foil circles.
+        for(var i=0;i<190;i++){
+          var x=Math.random()*w, y=-Math.random()*h*.45;
+          particles.push({x:x,y:y,vx:(Math.random()-.5)*3.4,vy:1.5+Math.random()*4.2,
+            rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.22,
+            width:3+Math.random()*5,height:5+Math.random()*10,
+            color:palette[(Math.random()*palette.length)|0],life:1,decay:.0018+Math.random()*.0014,
+            circle:Math.random()<.18});
+        }
+        var start=performance.now();
+        function frame(now){
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          particles.forEach(function(p){
+            p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.vx*=.997;p.rot+=p.vr;p.life-=p.decay;
+            ctx.save();ctx.globalAlpha=Math.max(0,p.life);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;
+            if(p.circle){ctx.beginPath();ctx.arc(0,0,p.width*.55,0,Math.PI*2);ctx.fill();}
+            else ctx.fillRect(-p.width/2,-p.height/2,p.width,p.height);
+            ctx.restore();
+          });
+          particles=particles.filter(function(p){return p.life>0&&p.y<h+30;});
+          if(particles.length&&now-start<6500){raf=requestAnimationFrame(frame);}
+          else {ctx.clearRect(0,0,canvas.width,canvas.height);particles=[];active=false;}
+        }
+        raf=requestAnimationFrame(frame);
+      }
+      section.addEventListener('reception:celebrate',burst);
+      window.addEventListener('resize',resize,{passive:true});
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initCelebration);else initCelebration();
+})();
+</script>
+<style id="static-reception-celebration-style">
+section.im-door-countdown{position:relative}
+section.im-door-countdown .im-reception-celebration-canvas{contain:strict}
+</style>
 <script id="static-reception-pull-reveal">
 (function(){
   function initReceptionPull(){
