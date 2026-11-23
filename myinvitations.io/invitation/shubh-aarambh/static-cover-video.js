@@ -43,7 +43,14 @@
       document.dispatchEvent(new CustomEvent('iw:cover-closing'));
       setTimeout(() => {
         cover.style.display = 'none';
-        document.dispatchEvent(new CustomEvent('iw:unlock-scroll'));
+        // Keep the page locked on the invitation envelope until the visitor
+        // interacts with the envelope/reveal screen (not the music control).
+        const unlockAfterReveal = (event) => {
+          if (event.target.closest?.('[data-music-toggle], .static-background-music-toggle, .music-toggle, button[aria-label*="music" i]')) return;
+          document.removeEventListener('click', unlockAfterReveal, true);
+          document.dispatchEvent(new CustomEvent('iw:unlock-scroll'));
+        };
+        document.addEventListener('click', unlockAfterReveal, true);
         document.dispatchEvent(new CustomEvent('iw:cover-opened'));
       }, 1300);
     };
