@@ -53,7 +53,9 @@
     lockPageScroll();
     window.scrollTo(0, 0);
     const forceTop = () => { if (envelopeScrollGuard && window.scrollY !== 0) window.scrollTo(0, 0); };
-    window.addEventListener('scroll', forceTop, {capture:true, passive:true});\n\n    // Start overlay: preserve the expected tap interaction.
+    window.addEventListener('scroll', forceTop, {capture:true, passive:true});
+
+    // Start overlay: preserve the expected tap interaction.
     video.autoplay = false;
     video.muted = false;
     video.playsInline = true;
