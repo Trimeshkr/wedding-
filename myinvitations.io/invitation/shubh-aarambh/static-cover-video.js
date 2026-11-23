@@ -7,6 +7,33 @@
     cover.dataset.staticCoverInit = '1';
 
     let started = false, finished = false;
+    let lockedScrollY = 0;
+    const lockPageScroll = () => {
+      if (document.body.dataset.invitationScrollLocked === '1') return;
+      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.dataset.invitationScrollLocked = '1';
+      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+      document.body.style.setProperty('position', 'fixed', 'important');
+      document.body.style.setProperty('top', '-' + lockedScrollY + 'px', 'important');
+      document.body.style.setProperty('left', '0', 'important');
+      document.body.style.setProperty('right', '0', 'important');
+      document.body.style.setProperty('width', '100%', 'important');
+      document.body.style.setProperty('overflow', 'hidden', 'important');
+    };
+    const unlockPageScroll = () => {
+      if (document.body.dataset.invitationScrollLocked !== '1') return;
+      document.body.dataset.invitationScrollLocked = '0';
+      document.documentElement.style.removeProperty('overflow');
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('top');
+      document.body.style.removeProperty('left');
+      document.body.style.removeProperty('right');
+      document.body.style.removeProperty('width');
+      document.body.style.removeProperty('overflow');
+      window.scrollTo(0, lockedScrollY);
+    };
+    document.addEventListener('iw:lock-scroll', lockPageScroll);
+    document.addEventListener('iw:unlock-scroll', unlockPageScroll);
     const finish = () => {
       if (finished) return;
       finished = true;
