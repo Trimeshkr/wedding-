@@ -43,19 +43,13 @@
       document.dispatchEvent(new CustomEvent('iw:cover-closing'));
       setTimeout(() => {
         cover.style.display = 'none';
-        // Keep the page locked on the invitation envelope until the visitor
-        // interacts with the envelope/reveal screen (not the music control).
-        const unlockAfterReveal = (event) => {
-          if (event.target.closest?.('[data-music-toggle], .static-background-music-toggle, .music-toggle, button[aria-label*="music" i]')) return;
-          document.removeEventListener('click', unlockAfterReveal, true);
-          document.dispatchEvent(new CustomEvent('iw:unlock-scroll'));
-        };
-        document.addEventListener('click', unlockAfterReveal, true);
+        // Unlock scrolling only after the envelope/cover closing animation is complete.
+        document.dispatchEvent(new CustomEvent('iw:unlock-scroll'));
         document.dispatchEvent(new CustomEvent('iw:cover-opened'));
       }, 1300);
     };
 
-    // Start overlay: preserve the expected tap interaction.
+    // Lock immediately on the initial envelope screen, before any tap.\n    lockPageScroll();\n\n    // Start overlay: preserve the expected tap interaction.
     video.autoplay = false;
     video.muted = false;
     video.playsInline = true;
@@ -65,7 +59,7 @@
       if (started || finished) return;
       started = true;
       document.dispatchEvent(new CustomEvent('iw:cover-started'));
-      document.dispatchEvent(new CustomEvent('iw:lock-scroll'));
+      // Scroll is already locked from the initial envelope screen.
       // Pause other media briefly, matching the original cover script.
       document.querySelectorAll('audio,video').forEach(media => {
         if (media !== video && !media.paused) {
