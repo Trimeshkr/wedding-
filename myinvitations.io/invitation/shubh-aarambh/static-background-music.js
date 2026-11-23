@@ -35,7 +35,6 @@
   document.body.appendChild(btn);
 
   let unlocked = false;
-  let primed = false;
   let fadeTimer = null;
   let userPaused = false;
   const setState = (playing) => {
@@ -67,16 +66,8 @@
     audio.pause();
     setState(false);
   }
-  // Prime playback silently during the intro's tap gesture so the file is already decoded/buffered when the cover opens.
-  document.addEventListener('iw:cover-started', async () => {
-    try {
-      audio.muted = true;
-      await audio.play();
-      primed = true;
-      setState(true);
-    } catch (_) { /* fallback to playback after the cover opens */ }
-  }, { once: true });
-  // Start at the beginning of the cover-closing transition to compensate for the remaining visual reveal.
+  // Do not start (even silently) during the intro. Playback begins only after the cover animation finishes.
+  // Start only after the cover has fully disappeared and the reveal animation is complete.
   document.addEventListener('iw:cover-opened', () => {
     unlocked = true;
     if (userPaused) return;
