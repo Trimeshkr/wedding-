@@ -8,6 +8,7 @@
   audio.preload = 'auto';
   audio.load();
   audio.volume = 0;
+  audio.muted = true;
 
   const btn = document.createElement('button');
   btn.type = 'button';
@@ -34,7 +35,9 @@
   document.body.appendChild(btn);
 
   let unlocked = false;
+  let primed = false;
   let fadeTimer = null;
+  let userPaused = false;
   const setState = (playing) => {
     btn.classList.toggle('is-playing', playing);
     btn.setAttribute('aria-label', playing ? 'Pause wedding music' : 'Play wedding music');
@@ -50,6 +53,7 @@
   };
   async function play() {
     try {
+      audio.muted = false;
       await audio.play();
       setState(true);
       fadeIn();
@@ -63,15 +67,30 @@
     audio.pause();
     setState(false);
   }
+  // Prime playback silently during the intro's tap gesture so the file is already decoded/buffered when the cover opens.
+  document.addEventListener('iw:cover-started', async () => {
+    try {
+      audio.muted = true;
+      await audio.play();
+      primed = true;
+      setState(true);
+    } catch (_) { /* fallback to playback after the cover opens */ }
+  }, { once: true });
   document.addEventListener('iw:cover-opened', () => {
     unlocked = true;
+    if (userPaused) return;
+    audio.muted = false;
     play();
   }, { once: true });
   btn.addEventListener('click', () => {
     if (audio.paused) {
+      userPaused = false;
       if (!unlocked) unlocked = true;
       play();
-    } else pause();
+    } else {
+      userPaused = true;
+      pause();
+    }
   });
   audio.addEventListener('ended', () => setState(false));
 })();
