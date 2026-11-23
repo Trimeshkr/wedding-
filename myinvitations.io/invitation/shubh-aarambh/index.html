@@ -4152,23 +4152,36 @@
             }
         }
 
-        /* Pull handle is intentionally limited to the Reception Date reveal card */
-        .im-door-countdown .im-door-card__pull {
-            display: flex;
-        }
-        .im-door-countdown .im-door-card__pull-ring {
-            pointer-events: auto;
-            touch-action: none;
-            cursor: grab;
-        }
-        .im-door-countdown .im-door-card__pull-ring:active {
-            cursor: grabbing;
-        }
-        .im-door-countdown .im-door-card__card.is-open .im-door-card__pull {
-            opacity: 0;
+        /* Reception Date pull handle: scoped to this section only */
+        section.im-door-countdown .im-door-card__pull {
+            display: flex !important;
+            opacity: 1;
             pointer-events: none;
+            z-index: 5;
         }
-
+        section.im-door-countdown .im-door-card__pull-ring {
+            display: flex !important;
+            pointer-events: auto !important;
+            touch-action: none !important;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        section.im-door-countdown .im-door-card__pull-string {
+            height: 72px;
+        }
+        section.im-door-countdown .im-door-card__card.is-open .im-door-card__pull {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        section.im-door-countdown .im-door-card__content {
+            opacity: 1;
+        }
+        section.im-door-countdown .im-door-countdown__grid {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
         /*# sourceURL=https://myinvitations.io/wp-content/plugins/invitation-management/build/save-the-date/scratch-with-door/style-index.css */
     </style>
     <style id="invitation-management-thankyou-basic-with-love-style-inline-css">
@@ -11245,6 +11258,59 @@ window.addEventListener('DOMContentLoaded',function(){
     <script data-wp-strategy="defer" defer id="invitation-management-event-flip-calendar-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/event-flip-calendar.js?ver=1792696305"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-door-reveal-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/door-reveal.js?ver=1786448749"></script>
     <script data-wp-strategy="defer" defer id="invitation-management-music-toggle-js" src="https://myinvitations.io/wp-content/plugins/invitation-management/build/frontend/music-toggle.js?ver=1793558679"></script>
+<script id="static-reception-pull-reveal">
+(function(){
+  function initReceptionPull(){
+    document.querySelectorAll('section.im-door-countdown').forEach(function(section){
+      if(section.dataset.staticPullReady==='1') return;
+      section.dataset.staticPullReady='1';
+      var card=section.querySelector('.im-door-card__card');
+      var handle=section.querySelector('[data-door-pull-handle]');
+      var pull=section.querySelector('.im-door-card__pull');
+      if(!card||!handle||!pull) return;
+      var startY=0, lastY=0, dragging=false, opened=false;
+      function openCard(){
+        if(opened) return;
+        opened=true;
+        card.classList.add('is-open');
+        handle.setAttribute('aria-valuenow','100');
+        pull.style.setProperty('--im-pull-offset','0px');
+      }
+      handle.addEventListener('pointerdown',function(e){
+        if(opened) return;
+        dragging=true; startY=e.clientY; lastY=startY;
+        handle.setPointerCapture&&handle.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      handle.addEventListener('pointermove',function(e){
+        if(!dragging||opened) return;
+        lastY=e.clientY;
+        var delta=Math.max(0,Math.min(120,lastY-startY));
+        pull.style.setProperty('--im-pull-offset',delta+'px');
+        pull.style.transform='translateX(-50%) translateY('+delta+'px)';
+        if(delta>75) openCard();
+      });
+      function endDrag(){
+        if(!dragging) return;
+        dragging=false;
+        if(!opened){
+          pull.style.setProperty('--im-pull-offset','0px');
+          pull.style.transform='';
+        }
+      }
+      handle.addEventListener('pointerup',endDrag);
+      handle.addEventListener('pointercancel',endDrag);
+      handle.addEventListener('click',function(e){e.preventDefault();openCard();});
+      handle.addEventListener('keydown',function(e){
+        if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard();}
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initReceptionPull);
+  else initReceptionPull();
+})();
+</script>
+
     <script src="./static-scroll-animations.js"></script>
 <script src="./static-cover-video.js"></script>
     <script id="wc-facebook-signals-js-extra">
